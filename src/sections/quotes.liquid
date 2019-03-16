@@ -1,0 +1,251 @@
+<style>
+  #QuotesSection-{{ section.id }} .quotes-slider {
+    background-color: {{ section.settings.color_bg }};
+  }
+  #QuotesSection-{{ section.id }} .quote,
+  #QuotesSection-{{ section.id }} .quote__author,
+  #QuotesSection-{{ section.id }} .quote__heading {
+    color: {{ section.settings.color_text }};
+  }
+</style>
+
+{% if section.blocks.size > 0 %}
+  <div id="QuotesSection-{{ section.id }}" data-section-id="{{ section.id }}" data-section-type="quotes-section">
+    <div class="quotes-slider text-center" data-count="{{ section.blocks.size }}" data-speed="{{ section.settings.autoplay_speed }}">
+      {% for block in section.blocks %}
+        <div class="quotes-slide quotes-slide--{{ forloop.index0 }} quotes-slide--{{ block.id }}{% if forloop.first == true %} quotes-slide--visible{% endif %}" {{ block.shopify_attributes }}>
+          {% if block.settings.heading != blank %}
+            <h2 class="quote__heading">{{ block.settings.heading | escape }}</h2>
+          {% endif %}
+          {% if block.settings.quote != blank %}
+            <div class="h4 quote rte-setting">{{ block.settings.quote }}</div>
+          {% endif %}
+          {% if block.settings.author != blank %}
+            <span class="quote__author">{{ block.settings.author | escape }}</span>
+          {% endif %}
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+{% else %}
+  {% include 'no-blocks' %}
+{% endif %}
+
+{% schema %}
+{
+  "name": {
+    "de": "Testimonials",
+    "en": "Testimonials",
+    "es": "Testimonios",
+    "fr": "Témoignages",
+    "it": "Testimonial",
+    "ja": "お客様の声",
+    "pt-BR": "Depoimentos"
+  },
+  "class": "index-section index-section--quotes",
+  "max_blocks": 5,
+  "settings": [
+    {
+      "type": "color",
+      "id": "color_bg",
+      "label": {
+        "de": "Hintergrundfarbe",
+        "en": "Background color",
+        "es": "Color del fondo",
+        "fr": "Couleur de fond",
+        "it": "Colore sfondo",
+        "ja": "背景の色",
+        "pt-BR": "Cor do fundo"
+      },
+      "default": "#4a4a4a"
+    },
+    {
+      "type": "color",
+      "id": "color_text",
+      "label": {
+        "de": "Textfarbe",
+        "en": "Text color",
+        "es": "Color del texto",
+        "fr": "Couleur du texte",
+        "it": "Colore del testo",
+        "ja": "文字の色",
+        "pt-BR": "Cor do texto"
+      },
+      "default": "#ffffff"
+    },
+    {
+      "type": "select",
+      "id": "autoplay_speed",
+      "label": {
+        "de": "Slides überall ändern",
+        "en": "Change slides every",
+        "es": "Cambiar diapositivas cada",
+        "fr": "Changer de diapositive toutes les",
+        "it": "Cambia slide ogni",
+        "ja": "スライドを変更する間隔",
+        "pt-BR": "Mude os slides a cada"
+      },
+      "options": [
+        {
+          "value": "3000",
+          "label": {
+            "de": "3 Sekunden",
+            "en": "3 seconds",
+            "es": "3 segundos",
+            "fr": "3 secondes",
+            "it": "3 secondi",
+            "ja": "3秒",
+            "pt-BR": "3 segundos"
+          }
+        },
+        {
+          "value": "4000",
+          "label": {
+            "de": "4 Sekunden",
+            "en": "4 seconds",
+            "es": "4 segundos",
+            "fr": "4 secondes",
+            "it": "4 secondi",
+            "ja": "4秒",
+            "pt-BR": "4 segundos"
+          }
+        },
+        {
+          "value": "5000",
+          "label": {
+            "de": "5 Sekunden",
+            "en": "5 seconds",
+            "es": "5 segundos",
+            "fr": "5 secondes",
+            "it": "5 secondi",
+            "ja": "5秒",
+            "pt-BR": "5 segundos"
+          }
+        },
+        {
+          "value": "6000",
+          "label": {
+            "de": "6 Sekunden",
+            "en": "6 seconds",
+            "es": "6 segundos",
+            "fr": "6 secondes",
+            "it": "6 secondi",
+            "ja": "6秒",
+            "pt-BR": "7 segundos"
+          }
+        }
+      ],
+      "default": "4000"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "quote",
+      "name": {
+        "de": "Testimonial",
+        "en": "Testimonial",
+        "es": "Testimonio",
+        "fr": "Témoignages",
+        "it": "Testimonial",
+        "ja": "お客様の声",
+        "pt-BR": "Depoimento"
+      },
+      "settings": [
+        {
+          "type": "text",
+          "id": "heading",
+          "label": {
+            "de": "Titel",
+            "en": "Heading",
+            "es": "Título",
+            "fr": "Titre",
+            "it": "Heading",
+            "ja": "見出し",
+            "pt-BR": "Título"
+          }
+        },
+        {
+          "type": "richtext",
+          "id": "quote",
+          "label": {
+            "de": "Text",
+            "en": "Text",
+            "es": "Texto",
+            "fr": "Texte",
+            "it": "Testo",
+            "ja": "テキスト",
+            "pt-BR": "Texto"
+          },
+          "info": {
+            "de": "Beste Ergebnisse, wenn der Text 400 Zeichen nicht überschreitet",
+            "en": "Best results if text does not exceed 400 characters",
+            "es": "Se obtienen mejores resultados si el texto no supera los 400 caracteres.",
+            "fr": "Vous obtiendrez de meilleurs résultats si le texte ne dépasse pas 400 caractères",
+            "it": "Ottieni i migliori risultati se il testo non supera i 400 caratteri",
+            "ja": "テキストが400文字を超えないようにするのが最適です。",
+            "pt-BR": "Resultados melhores quando o texto não excede 400 caracteres"
+          },
+          "default": {
+            "de": "<p>Kunden-Reviews und Testimonials, die Kundenzufriedenheit beweisen.</p>",
+            "en": "<p>Add customer reviews and testimonials to showcase your store's happy customers.</p>",
+            "es": "<p>Agrega las reseñas y los testimonios de los clientes para mostrar los clientes satisfechos de tu tienda.</p>",
+            "fr": "<p>Ajoutez des avis et témoignages pour mettre en avant les clients satisfaits de votre boutique.</p>",
+            "it": "<p>Aggiungi recensioni e testimonianze sul tuo negozio per dimostrare che i clienti sono soddisfatti.</p>",
+            "ja": "<p>あなたのストアの幸せなお客様を紹介するために、カスタマーレビューとお客様の声を追加してください。</p>",
+            "pt-BR": "<p>Adicione avaliações e depoimentos de clientes para mostrar os clientes felizes da sua loja.</p>"
+          }
+        },
+        {
+          "type": "text",
+          "id": "author",
+          "label": {
+            "de": "Autor",
+            "en": "Author",
+            "es": "Autor",
+            "fr": "Auteur",
+            "it": "Autore",
+            "ja": "執筆者",
+            "pt-BR": "Autoria"
+          },
+          "default": {
+            "de": "Name des Autors",
+            "en": "Author's name",
+            "es": "Nombre del autor",
+            "fr": "Nom de l'auteur",
+            "it": "Nome dell'autore",
+            "ja": "筆者の名前",
+            "pt-BR": "Nome do autor"
+          }
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": {
+        "de": "Testimonials",
+        "en": "Testimonials",
+        "es": "Testimonios",
+        "fr": "Témoignages",
+        "it": "Testimonial",
+        "ja": "お客様の声",
+        "pt-BR": "Depoimentos"
+      },
+      "category": {
+        "de": "Text",
+        "en": "Text",
+        "es": "Texto",
+        "fr": "Texte",
+        "it": "Testo",
+        "ja": "テキスト",
+        "pt-BR": "Texto"
+      },
+      "blocks": [
+        {
+          "type": "quote"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

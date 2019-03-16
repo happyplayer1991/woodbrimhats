@@ -1,0 +1,575 @@
+{%- assign image_crop = false -%}
+
+{% if section.settings.image_crop == 'circle' or section.settings.image_crop == 'square' %}
+  {%- assign image_crop = true -%}
+{% endif %}
+
+<style>
+  .feature-row--{{ section.id }} {
+    {% if section.settings.background_color != blank %}
+      background-color: {{ section.settings.background_color }};
+    {% elsif section.settings.background_color == blank and image_crop %}
+      background-color: {{ settings.color_secondary_bg }};
+    {% endif %}
+  }
+
+  {% if image_crop %}
+    @media screen and (min-width: 750px) {
+      .feature-row--{{ section.id }} .feature-row__image-wrapper {
+        background-color: {{ section.settings.background_color | color_lighten: 5 }};
+      }
+    }
+  {% endif %}
+</style>
+
+{% if section.settings.image != blank %}
+  <style>
+    .feature-row__image--{{ section.id }} {
+      background-position: {{ section.settings.alignment }};
+    }
+  </style>
+{% endif %}
+
+{% capture image_layout %}
+  <div class="feature-row__item feature-row__image-wrapper">
+    {% if section.settings.image != blank %}
+      <div class="feature-row__image feature-row__image--{{ section.id }}{% if image_crop %} feature-row__image-crop{% endif %} lazyload" data-sizes="auto" data-bgset="{% include 'bgset', image: section.settings.image %}"></div>
+
+      <noscript>
+        <div class="feature-row__image feature-row__image--{{ section.id }}{% if image_crop %} feature-row__image-crop{% endif %}" style="background-image: {{ section.settings.image | img_url: 'master' }}"></div>
+      </noscript>
+    {% else %}
+      <div class="feature-row__image feature-row__image--{{ section.id }}{% if image_crop %} feature-row__image-crop{% endif %}">{{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}</div>
+    {% endif %}
+  </div>
+{% endcapture %}
+
+<div class="feature-row feature-row--{{ section.id }} feature-row--{{ section.settings.size }} feature-row__image-crop--{{ section.settings.image_crop }}{% if section.settings.mobile_layout == 'bottom' %} feature-row-mobile--bottom{% endif %}" data-section-id="{{ section.id }}" data-section-type="feature-row">
+  {% if section.settings.desktop_layout == 'left' %}
+    {{ image_layout }}
+  {% endif %}
+
+  <div class="feature-row__item feature-row__text">
+    {% if section.settings.title != blank %}
+      <h2 class="feature-row__heading h3 separator" data-animate>{{ section.settings.title | escape }}</h2>
+    {% endif %}
+    {% if section.settings.text != blank %}
+      <div class="rte-setting featured-row__subtext">{{ section.settings.text }}</div>
+    {% endif %}
+    {% if section.settings.button_label != blank %}
+      <a href="{{ section.settings.button_link }}" class="btn{% if section.settings.use_second_button %} btn--secondary{% endif %} feature-row__btn">
+        {{ section.settings.button_label }}
+      </a>
+    {% endif %}
+  </div>
+
+  {% if section.settings.desktop_layout == 'right' %}
+    {{ image_layout }}
+  {% endif %}
+</div>
+
+{% schema %}
+{
+  "name": {
+    "de": "Foto mit Text",
+    "en": "Image with text",
+    "es": "Imagen con texto",
+    "fr": "Image avec du texte",
+    "it": "Immagine con testo",
+    "ja": "テキスト付き画像",
+    "pt-BR": "Imagem com texto"
+  },
+  "class": "index-section index-section--image-with-text",
+  "settings": [
+    {
+      "type": "select",
+      "id": "size",
+      "label": {
+        "de": "Bereichs-Höhe",
+        "en": "Section height",
+        "es": "Altura de la sección",
+        "fr": "Hauteur de la section",
+        "it": "Altezza sezione",
+        "ja": "セクションの高さ",
+        "pt-BR": "Altura da seção"
+      },
+      "default": "medium",
+      "options": [
+        {
+          "label": {
+            "de": "Klein",
+            "en": "Small",
+            "es": "Pequeña",
+            "fr": "Petite",
+            "it": "Piccolo",
+            "ja": "小",
+            "pt-BR": "Pequeno"
+          },
+          "value": "small"
+        },
+        {
+          "label": {
+            "de": "Mitte",
+            "en": "Medium",
+            "es": "Mediana",
+            "fr": "Moyenne",
+            "it": "Medio",
+            "ja": "中",
+            "pt-BR": "Médio"
+          },
+          "value": "medium"
+        },
+        {
+          "label": {
+            "de": "Groß",
+            "en": "Large",
+            "es": "Grande",
+            "fr": "Grande",
+            "it": "Grande",
+            "ja": "大",
+            "pt-BR": "Grande"
+          },
+          "value": "large"
+        },
+        {
+          "label": {
+            "de": "Extra groß",
+            "en": "Extra Large",
+            "es": "Extra grande",
+            "fr": "Très grande",
+            "it": "Molto grande",
+            "ja": "特大",
+            "pt-BR": "Extragrande"
+          },
+          "value": "x-large"
+        }
+      ]
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": {
+        "de": "Hintergrundfarbe",
+        "en": "Background color",
+        "es": "Color del fondo",
+        "fr": "Couleur de fond",
+        "it": "Colore sfondo",
+        "ja": "背景の色",
+        "pt-BR": "Cor do fundo"
+      },
+      "default": "#faf9f6"
+    },
+    {
+      "type": "header",
+      "content": {
+        "de": "Foto",
+        "en": "Image",
+        "es": "Imagen",
+        "fr": "Image",
+        "it": "Immagine",
+        "ja": "画像",
+        "pt-BR": "Imagem"
+      }
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": {
+        "de": "Foto",
+        "en": "Image",
+        "es": "Imagen",
+        "fr": "Image",
+        "it": "Immagine",
+        "ja": "画像",
+        "pt-BR": "Imagem"
+      }
+    },
+    {
+      "type": "select",
+      "id": "image_crop",
+      "label": {
+        "de": "Bildstil",
+        "en": "Image style",
+        "es": "Estilo de imagen",
+        "fr": "Style d'image",
+        "it": "Stile immagine",
+        "ja": "画像スタイル",
+        "pt-BR": "Estilo da imagem"
+      },
+      "default": "none",
+      "options": [
+        {
+          "label": {
+            "de": "Keine",
+            "en": "None",
+            "es": "Ninguna",
+            "fr": "Aucun",
+            "it": "Nessuno",
+            "ja": "なし",
+            "pt-BR": "Nenhum"
+          },
+          "value": "none"
+        },
+        {
+          "label": {
+            "de": "Kreis",
+            "en": "Circle",
+            "es": "Círculo",
+            "fr": "Cercle",
+            "it": "Cerchio",
+            "ja": "丸",
+            "pt-BR": "Círculo"
+          },
+          "value": "circle"
+        },
+        {
+          "label": {
+            "de": "Square",
+            "en": "Square",
+            "es": "Cuadrada",
+            "fr": "Carré",
+            "it": "Square",
+            "ja": "正方形",
+            "pt-BR": "Square"
+          },
+          "value": "square"
+        }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "alignment",
+      "label": {
+        "de": "Foto-Position",
+        "en": "Image position",
+        "es": "Posición de la imagen",
+        "fr": "Position de l'image",
+        "it": "Posizione Immagine",
+        "ja": "画像の位置",
+        "pt-BR": "Posição da imagem"
+      },
+      "default": "center center",
+      "options": [
+        {
+          "label": {
+            "de": "Oben links",
+            "en": "Top left",
+            "es": "Superior izquierda",
+            "fr": "En haut à gauche",
+            "it": "In alto a sinistra",
+            "ja": "左上",
+            "pt-BR": "Superior esquerdo"
+          },
+          "value": "top left"
+        },
+        {
+          "label": {
+            "de": "Oben Mitte",
+            "en": "Top center",
+            "es": "Superior al centro",
+            "fr": "En haut au centre",
+            "it": "In alto al centro",
+            "ja": "中央上",
+            "pt-BR": "Superior centro"
+          },
+          "value": "top center"
+        },
+        {
+          "label": {
+            "de": "Oben rechts",
+            "en": "Top right",
+            "es": "Superior derecha",
+            "fr": "En haut à droite",
+            "it": "In alto a destra",
+            "ja": "右上",
+            "pt-BR": "Superior direito"
+          },
+          "value": "top right"
+        },
+        {
+          "label": {
+            "de": "Mitte links",
+            "en": "Middle left",
+            "es": "Al medio a la izquierda",
+            "fr": "Au milieu à gauche",
+            "it": "In mezzo a sinistra",
+            "ja": "中央左",
+            "pt-BR": "Meio esquerdo"
+          },
+          "value": "center left"
+        },
+        {
+          "label": {
+            "de": "Mitte mittig",
+            "en": "Middle center",
+            "es": "Al medio al centro",
+            "fr": "Centrée au milieu",
+            "it": "In mezzo al centro",
+            "ja": "中央中",
+            "pt-BR": "Meio centro"
+          },
+          "value": "center center"
+        },
+        {
+          "label": {
+            "de": "Mitte rechts",
+            "en": "Middle right",
+            "es": "Al medio a la derecha",
+            "fr": "Au milieu à droite",
+            "it": "In centro a destra",
+            "ja": "中央右",
+            "pt-BR": "Meio direito"
+          },
+          "value": "center right"
+        },
+        {
+          "label": {
+            "de": "Unten links",
+            "en": "Bottom left",
+            "es": "Inferior izquierda",
+            "fr": "En bas à gauche",
+            "it": "In basso a sinistra",
+            "ja": "左下",
+            "pt-BR": "Inferior esquerdo"
+          },
+          "value": "bottom left"
+        },
+        {
+          "label": {
+            "de": "Unten mittig",
+            "en": "Bottom center",
+            "es": "Inferior al centro",
+            "fr": "En bas au centre",
+            "it": "In basso al centro",
+            "ja": "中央下",
+            "pt-BR": "Inferior centro"
+          },
+          "value": "bottom center"
+        },
+        {
+          "label": {
+            "de": "Unten rechts",
+            "en": "Bottom right",
+            "es": "Inferior derecha",
+            "fr": "En bas à droite",
+            "it": "In basso a destra",
+            "ja": "右下",
+            "pt-BR": "Inferior direito"
+          },
+          "value": "bottom right"
+        }
+      ]
+    },
+    {
+      "type": "header",
+      "content": {
+        "de": "Text",
+        "en": "Text",
+        "es": "Texto",
+        "fr": "Texte",
+        "it": "Testo",
+        "ja": "テキスト",
+        "pt-BR": "Texto"
+      }
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": {
+        "de": "Titel",
+        "en": "Heading",
+        "es": "Título",
+        "fr": "Titre",
+        "it": "Heading",
+        "ja": "見出し",
+        "pt-BR": "Título"
+      },
+      "default": {
+        "de": "Bild mit Text",
+        "en": "Image with text",
+        "es": "Imagen con texto",
+        "fr": "Image avec texte",
+        "it": "Immagine con testo",
+        "ja": "テキスト付き画像",
+        "pt-BR": "Imagem com texto"
+      }
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": {
+        "de": "Text",
+        "en": "Text",
+        "es": "Texto",
+        "fr": "Texte",
+        "it": "Testo",
+        "ja": "テキスト",
+        "pt-BR": "Texto"
+      },
+      "default": {
+        "de": "<p>Kombinieren Sie große Schrift mit einem Foto, um einen Fokus auf Ihr ausgewähltes Produkt, die Kategorie oder einen Blogpost zu legen. Dazu Details zur Verfügbarkeit, Stil oder ein Review.</p>",
+        "en": "<p>Pair large text with an image to give focus to your chosen product, collection, or blog post. Add details on availability, style, or even provide a review.</p>",
+        "es": "<p>Vincula un texto largo con una imagen para dar visibilidad a tu producto, colección o publicación de blog elegida. Agrega detalles sobre disponibilidad, estilo, o incluso ofrece una reseña.</p>",
+        "fr": "<p>Ajoutez une image à un long texte pour mettre l'accent sur un produit de votre choix, une collection, ou un article de blog. Ajoutez des détails sur la disponibilité, le style, ou mettez un commentaire client en avant.</p>",
+        "it": "<p>Associa un testo di grandi dimensioni a un'immagine per dare importanza al prodotto, alla collezione o all'articolo del blog di tua scelta. Aggiungi dettagli sulla disponibilità, sullo stile o fornisci una recensione.</p>",
+        "ja": "<p>あなたが選んだ商品、コレクション、またはブログ投稿に注目を集めるため、大きなテキストと画像を組み合わせます。在庫状況、スタイル、またはレビュー提供についての詳細を追加します。</p>",
+        "pt-BR": "<p>Emparelhe texto grande com uma imagem para dar foco ao produto, coleção ou postagem do blog escolhido. Adicione detalhes sobre disponibilidade, estilo ou até mesmo um comentário.</p>"
+      }
+    },
+    {
+      "type": "checkbox",
+      "id": "use_second_button",
+      "label": {
+        "de": "Stil für sekundäre Schaltflächen verwenden",
+        "en": "Use secondary button style",
+        "es": "Utiliza el estilo de botón secundario",
+        "fr": "Utiliser le style de bouton secondaire",
+        "it": "Usa stile pulsante secondario",
+        "ja": "サブボタンのスタイルを使用する",
+        "pt-BR": "Usar o estilo de botão secundário"
+      },
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": {
+        "de": "Button-Etikett",
+        "en": "Button label",
+        "es": "Etiqueta de botón",
+        "fr": "Texte du bouton",
+        "it": "Etichetta pulsante",
+        "ja": "ボタンラベル",
+        "pt-BR": "Etiqueta do botão"
+      }
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": {
+        "de": "Button-Etikett",
+        "en": "Button link",
+        "es": "Enlace de botón",
+        "fr": "Lien du bouton",
+        "it": "Link pulsante",
+        "ja": "ボタンリンク",
+        "pt-BR": "Link do botão"
+      }
+    },
+    {
+      "type": "header",
+      "content": {
+        "de": "Fotoausrichtung",
+        "en": "Image alignment",
+        "es": "Alineación de imagen",
+        "fr": "Alignement de l'image",
+        "it": "Allineamento immagine",
+        "ja": "画像アラインメント",
+        "pt-BR": "Alinhamento da imagem"
+      }
+    },
+    {
+      "type": "select",
+      "id": "desktop_layout",
+      "label": {
+        "de": "Desktop",
+        "en": "Desktop",
+        "es": "Escritorio",
+        "fr": "Bureau",
+        "it": "Desktop",
+        "ja": "デスクトップ",
+        "pt-BR": "Desktop"
+      },
+      "default": "right",
+      "options": [
+        {
+          "label": {
+            "de": "Links",
+            "en": "Left",
+            "es": "Izquierda",
+            "fr": "Gauche",
+            "it": "Sinistra",
+            "ja": "左",
+            "pt-BR": "Esquerda"
+          },
+          "value": "left"
+        },
+        {
+          "label": {
+            "de": "Rechts",
+            "en": "Right",
+            "es": "Derecha",
+            "fr": "Droite",
+            "it": "Destra",
+            "ja": "右",
+            "pt-BR": "Direita"
+          },
+          "value": "right"
+        }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "mobile_layout",
+      "label": {
+        "de": "Mobile",
+        "en": "Mobile",
+        "es": "Móvil",
+        "fr": "Mobile",
+        "it": "Mobile",
+        "ja": "モバイル",
+        "pt-BR": "Móvel"
+      },
+      "default": "top",
+      "options": [
+        {
+          "label": {
+            "de": "Oben",
+            "en": "Top",
+            "es": "Superior",
+            "fr": "En haut",
+            "it": "In alto",
+            "ja": "上",
+            "pt-BR": "Acima"
+          },
+          "value": "top"
+        },
+        {
+          "label": {
+            "de": "Unten",
+            "en": "Bottom",
+            "es": "Inferior",
+            "fr": "En bas",
+            "it": "In basso",
+            "ja": "下",
+            "pt-BR": "Abaixo"
+          },
+          "value": "bottom"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": {
+        "de": "Foto mit Text",
+        "en": "Image with text",
+        "es": "Imagen con texto",
+        "fr": "Image avec texte",
+        "it": "Immagine con testo",
+        "ja": "テキスト付き画像",
+        "pt-BR": "Imagem com texto"
+      },
+      "category": {
+        "de": "Foto",
+        "en": "Image",
+        "es": "Imagen",
+        "fr": "Image",
+        "it": "Immagine",
+        "ja": "画像",
+        "pt-BR": "Imagem"
+      }
+    }
+  ]
+}
+{% endschema %}

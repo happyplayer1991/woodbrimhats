@@ -1,0 +1,225 @@
+{%- assign limit = section.settings.articles | times: section.settings.rows -%}
+
+<div class="blog-template" data-section-id="{{ section.id }}" data-section-type="blog-template">
+  {% paginate blog.articles by limit %}
+
+    <div class="page-width">
+      <header class="section-header section-header--small text-center">
+        <h1 class="section-header__title h2">{{ page_title }}</h1>
+      </header>
+
+      {%- assign desktopColumns = section.settings.articles -%}
+      {%- assign mobileColumns = '1' -%}
+
+      {%- capture gridClasses -%}
+        {% if desktopColumns == '3' %}medium-up--one-third {% else %}medium-up--one-half {% endif %}
+        {% if mobileColumns == '2' %}small--one-half {% endif %}
+      {%- endcapture -%}
+
+      <div class="card-list grid" data-desktop-columns="{{ desktopColumns }}" data-mobile-columns="{{ mobileColumns }}" data-grid-style="{{ section.settings.grid_style }}">
+        <div class="card-list__column grid__item {% if blog.articles.size == 1 %}card-list__column--center{% endif %} {{ gridClasses }}">
+          {% for article in blog.articles %}
+            {% include 'article-card', article: article, grid_style: section.settings.grid_style %}
+          {% endfor %}
+        </div>
+      </div>
+
+      {% if blog.articles.size == 0 %}
+        <p class="text-center">{{ 'blogs.article.no_matches' | t }}</p>
+      {% endif %}
+
+      {% if paginate.pages > 1 %}
+        <div class="card-list__sub-actions">
+          {% include 'pagination' %}
+        </div>
+      {% endif %}
+    </div>
+
+  {% endpaginate %}
+</div>
+
+{% schema %}
+{
+  "name": {
+    "de": "Blog",
+    "en": "Blog",
+    "es": "Blog",
+    "fr": "Blog",
+    "it": "Blog",
+    "ja": "ブログ",
+    "pt-BR": "Blog"
+  },
+  "settings": [
+    {
+      "type": "select",
+      "id": "grid_style",
+      "label": {
+        "de": "Rasterstil",
+        "en": "Grid style",
+        "es": "Estilo de cuadrícula",
+        "fr": "Style de grille",
+        "it": "Stile griglia",
+        "ja": "グリッドスタイル",
+        "pt-BR": "Estilo da grade"
+      },
+      "default": "collage",
+      "options": [
+        {
+          "value": "collage",
+          "label": {
+            "de": "Collage",
+            "en": "Collage",
+            "es": "Collage",
+            "fr": "Collage",
+            "it": "Collage",
+            "ja": "コラージュ",
+            "pt-BR": "Colagem"
+          }
+        },
+        {
+          "value": "grid",
+          "label": {
+            "de": "Raster",
+            "en": "Grid",
+            "es": "Cuadrícula",
+            "fr": "Grille",
+            "it": "Griglia",
+            "ja": "グリッド",
+            "pt-BR": "Grade"
+          }
+        }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "articles",
+      "label": {
+        "de": "Artikel pro Zeile",
+        "en": "Articles per row",
+        "es": "Artículos por fila",
+        "fr": "Articles par rangée",
+        "it": "Articoli per riga",
+        "ja": "行あたりの記事数",
+        "pt-BR": "Artigos por linha"
+      },
+      "default": "2",
+      "options": [
+        {
+          "value": "2",
+          "label": {
+            "de": "2",
+            "en": "2",
+            "es": "2",
+            "fr": "2",
+            "it": "2",
+            "ja": "2",
+            "pt-BR": "2"
+          }
+        },
+        {
+          "value": "3",
+          "label": {
+            "de": "3",
+            "en": "3",
+            "es": "3",
+            "fr": "3",
+            "it": "3",
+            "ja": "3",
+            "pt-BR": "3"
+          }
+        }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "rows",
+      "label": {
+        "de": "Zeilen pro Seite",
+        "en": "Rows per page",
+        "es": "Filas por página",
+        "fr": "Rangées par page",
+        "it": "Righe per pagina",
+        "ja": "ページあたりの行数",
+        "pt-BR": "Linhas por página"
+      },
+      "default": "4",
+      "options": [
+        {
+          "value": "2",
+          "label": {
+            "de": "2",
+            "en": "2",
+            "es": "2",
+            "fr": "2",
+            "it": "2",
+            "ja": "2",
+            "pt-BR": "2"
+          }
+        },
+        {
+          "value": "3",
+          "label": {
+            "de": "3",
+            "en": "3",
+            "es": "3",
+            "fr": "3",
+            "it": "3",
+            "ja": "3",
+            "pt-BR": "3"
+          }
+        },
+        {
+          "value": "4",
+          "label": {
+            "de": "4",
+            "en": "4",
+            "es": "4",
+            "fr": "4",
+            "it": "4",
+            "ja": "4",
+            "pt-BR": "4"
+          }
+        },
+        {
+          "value": "5",
+          "label": {
+            "de": "5",
+            "en": "5",
+            "es": "5",
+            "fr": "5",
+            "it": "5",
+            "ja": "5",
+            "pt-BR": "5"
+          }
+        },
+        {
+          "value": "6",
+          "label": {
+            "de": "6",
+            "en": "6",
+            "es": "6",
+            "fr": "6",
+            "it": "6",
+            "ja": "6",
+            "pt-BR": "6"
+          }
+        }
+      ]
+    },
+    {
+      "type": "checkbox",
+      "id": "blog_show_date",
+      "label": {
+        "de": "Datum anzeigen",
+        "en": "Show date",
+        "es": "Mostrar fecha",
+        "fr": "Afficher la date",
+        "it": "Mostra data",
+        "ja": "日付を表示する",
+        "pt-BR": "Exibir data"
+      },
+      "default": true
+    }
+  ]
+}
+{% endschema %}

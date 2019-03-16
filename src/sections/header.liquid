@@ -1,0 +1,739 @@
+{% if section.settings.enable_transparent and template.name == 'index' %}
+  <style>
+    html:not(.supports-no-js) body:not(.navigation-open) .site-header--transparent:not(.site-header--fixed) .burger-icon {
+      background-color: {{ section.settings.transparent_text_color }};
+    }
+
+    html:not(.supports-no-js) body:not(.navigation-open) .site-header--transparent:not(.site-header--fixed) .site-header__cart .icon,
+    html:not(.supports-no-js) body:not(.navigation-open) .site-header--transparent:not(.site-header--fixed) .site-header__bag .icon {
+      fill: {{ section.settings.transparent_text_color }};
+    }
+
+    html:not(.supports-no-js) body:not(.navigation-open) .site-header--transparent:not(.site-header--fixed) a.site-header__logo {
+      color: {{ section.settings.transparent_text_color }};
+    }
+
+    html:not(.supports-no-js) body:not(.navigation-open) .site-header--transparent:not(.site-header--fixed) .site-header__navigation::after,
+    html:not(.supports-no-js) body:not(.navigation-open) .site-header--transparent:not(.site-header--fixed) .site-header__cart::after {
+      border-color: {{ section.settings.transparent_text_color }};
+    }
+  </style>
+{% endif %}
+<div class="site-header{% if section.settings.enable_transparent and template.name == 'index' %} site-header--transparent{% endif %}{% if template.name == 'index' %} site-header--homepage{% endif %}" data-section-id="{{ section.id }}" data-section-type="header-section" data-drawer-push>
+  <header class="site-header__wrapper" role="banner">
+    {% if section.settings.show_announcement %}
+      {% if section.settings.home_page_only == false or template.name == 'index' %}
+        <style>
+          .announcement-bar {
+            background-color: {{ section.settings.announcement_color_bg }};
+          }
+
+          .announcement-bar--link:hover {
+            {% assign brightness = section.settings.announcement_color_bg | color_brightness %}
+
+            {% if brightness <= 192 %}
+              {% assign lightenAmount = 255 | minus: brightness | divided_by: 255 | times: 16 %}
+              background-color: {{ section.settings.announcement_color_bg | color_lighten: lightenAmount }};
+            {% else %}
+              {% assign darkenAmount = 255 | divided_by: brightness | times: 8 %}
+              background-color: {{ section.settings.announcement_color_bg | color_darken: darkenAmount }};
+            {% endif %}
+          }
+
+          .announcement-bar__message,
+          .announcement-bar__close {
+            color: {{ section.settings.announcement_color_text }};
+          }
+        </style>
+
+        {% if section.settings.announcement_link == blank %}
+          <div class="announcement-bar">
+        {% else %}
+          <a href="{{ section.settings.announcement_link }}" class="announcement-bar announcement-bar--link">
+        {% endif %}
+
+          <p class="announcement-bar__message page-width">
+            {% if section.settings.announcement_icon != 'none' %}
+              {%- assign icon = 'icon-' | append: section.settings.announcement_icon -%}
+              {% include icon %}
+            {% endif %}
+            {{ section.settings.announcement_text | escape }}
+          </p>
+          <button class="announcement-bar__close btn btn--clear" aria-expanded="true">{% include 'icon-close' %}</button>
+
+        {% if section.settings.announcement_link == blank %}
+          </div>
+        {% else %}
+          </a>
+        {% endif %}
+
+      {% endif %}
+    {% endif %}
+
+    <div class="site-header-sections page-width">
+      <nav class="site-header__section site-header__section--button"
+        data-site-navigation role="navigation"
+      >
+        <button class="site-header__navigation btn btn--clear btn--square"
+          aria-expanded="false"
+          data-navigation-button
+        >
+          <span class="burger-icon burger-icon--top"></span>
+          <span class="burger-icon burger-icon--mid"></span>
+          <span class="burger-icon burger-icon--bottom"></span>
+          <span class="icon__fallback-text">{{ 'general.header.menu' | t }}</span>
+        </button>
+        <div class="navigation supports-no-js critical-hide" data-section-id="{{ section.id }}" data-section-type="navigation" aria-hidden=true>
+          <div class="navigation__container">
+            <ul class="navigation__links">
+              {% for link in linklists[section.settings.primary_navigation].links%}
+                {% assign child_list_handle = link.title | handleize %}
+                {% if link.links != blank %}
+                  <li class="navigation__link navigation__has-sublinks navigation__has-sublinks--collapsed navigation__entrance-animation">
+                    <button class="navigation__expand-sublinks" aria-expanded="{% if link.active %}true{% else %}false{% endif %}">
+                      <span aria-hidden="true">{{ link.title }}</span>
+                      <span class="visually-hidden">{{ 'general.navigation.toggle_sublinks' | t: link_title: link.title }}</span>
+                      {% include 'icon-arrow-down' %}
+                    </button>
+                    <div class="navigation__sublinks-container">
+                      <ul class="navigation__sublinks">
+                        {% for childlink in link.links %}
+                          <li class="navigation__sublink{% if childlink.links != blank %} navigation__has-sublinks navigation__has-sublinks--collapsed{% endif %}">
+                            {% if childlink.links != blank %}
+                              <button class="navigation__expand-sublinks navigation__expand-sublinks--third-level" aria-expanded="{% if link.active %}true{% else %}false{% endif %}">
+                                <span aria-hidden="true">{{ childlink.title }}</span>
+                                <span class="visually-hidden">{{ 'general.navigation.toggle_sublinks' | t: link_title: childlink.title }}</span>
+                                {% include 'icon-arrow-down' %}
+                              </button>
+                              <div class="navigation__sublinks-container">
+                                <ul class="navigation__sublinks navigation__sublinks--third-level">
+                                  {% for grandchildlink in childlink.links %}
+                                    <li class="navigation__sublink--third-level">
+                                      <a href="{{ grandchildlink.url }}"{% if grandchildlink.active %} aria-current="page"{% endif %}>{{ grandchildlink.title | escape }}</a>
+                                    </li>
+                                  {% endfor %}
+                                </ul>
+                              </div>
+                            {% else %}
+                              <a href="{{ childlink.url }}"{% if childlink.active %} aria-current="page"{% endif %}>{{ childlink.title | escape }}</a>
+                            {% endif %}
+                          </li>
+                        {% endfor %}
+                      </ul>
+                    </div>
+                  </li>
+                {% else %}
+                  <li class="navigation__link navigation__entrance-animation{% if link.active %} navigation__link--active{% endif %}">
+                    <a href="{{ link.url }}"{% if link.active %} aria-current="page"{% endif %}>{{ link.title }}</a>
+                  </li>
+                {% endif %}
+              {% endfor %}
+            </ul>
+
+            <ul class="navigation__links">
+              {% if shop.customer_accounts_enabled %}
+                {% if customer %}
+                  <li class="navigation__link navigation__link--secondary navigation__entrance-animation">
+                    {% if customer.first_name != blank %}
+                      {% capture first_name %}{{ customer.first_name }}{% endcapture %}
+                      <a href="/account">{{ 'layout.customer.logged_in_as_html' | t: first_name: first_name }}</a>
+                    {% else %}
+                      <a href="/account">{{ 'layout.customer.account' | t }}</a>
+                    {% endif %}
+                  </li>
+                  <li class="navigation__link navigation__link--secondary navigation__entrance-animation">
+                    <a href="/account/logout">{{ 'layout.customer.log_out' | t }}</a>
+                  </li>
+                {% else %}
+                  <li class="navigation__link navigation__link--secondary navigation__entrance-animation">
+                    <a href="/account/login">{{ 'layout.customer.log_in' | t }}</a>
+                  </li>
+                  <li class="navigation__link navigation__link--secondary navigation__entrance-animation">
+                    <a href="/account/register">{{ 'layout.customer.create_account' | t }}</a>
+                  </li>
+                {% endif %}
+              {% endif %}
+              {% for link in linklists[section.settings.secondary_navigation].links %}
+                <li class="navigation__link navigation__link--secondary navigation__entrance-animation{% if link.active %} navigation__link--active{% endif %}">
+                  <a href="{{ link.url }}">{{ link.title }}</a>
+                </li>
+              {% endfor %}
+            </ul>
+
+            {% if section.settings.show_social_icons %}
+              <div class="navigation__social-sharing navigation__entrance-animation">
+                {% include 'social-links', disableTab: true, largeIcons: true %}
+              </div>
+            {% endif %}
+
+            {% include 'search-bar', animate: true, disableTab: true %}
+          </div>
+        </div>
+      </nav>
+      <div class="site-header__section site-header__section--title">
+        {% comment %}
+        Use the uploaded logo from theme settings if enabled.
+        Site name gets precedence with `h1` tag on homepage, div on other pages.
+        {% endcomment %}
+        {% if template.name == 'index' %}
+          <h1 class="site-header__logo-wrapper h4" itemscope itemtype="http://schema.org/Organization">
+        {% else %}
+          <div class="site-header__logo-wrapper h4" itemscope itemtype="http://schema.org/Organization">
+        {% endif %}
+
+        <a href="/" itemprop="url" class="site-header__logo">
+          {%- capture image_size %}x{{ section.settings.logo_max_height }}{% endcapture -%}
+
+          {% if section.settings.logo %}
+            <style>
+              .site-header__logo-image {
+                height: {{ section.settings.logo_max_height | append: 'px' }};
+              }
+            </style>
+
+            <img class="site-header__logo-image" src="{{ section.settings.logo | img_url: image_size }}" srcset="{{ section.settings.logo | img_url: image_size }} 1x, {{ section.settings.logo | img_url: image_size, scale: 2 }} 2x" alt="{{ section.settings.logo.alt | default: shop.name }}" itemprop="logo">
+
+            {% if template.name == 'index' and section.settings.enable_transparent %}
+              {% if section.settings.transparent_logo == blank %}
+                {%- assign transparent_logo = section.settings.logo -%}
+              {% else %}
+                {%- assign transparent_logo = section.settings.transparent_logo -%}
+              {% endif %}
+
+              <img class="site-header__logo-image site-header__logo-image--transparent" src="{{ transparent_logo | img_url: image_size }}" srcset="{{ transparent_logo | img_url: image_size }} 1x, {{ transparent_logo | img_url: image_size, scale: 2 }} 2x" alt="{{ section.settings.logo.alt | default: shop.name }}"
+                      itemprop="logo">
+            {% endif %}
+          {% else %}
+            {{ shop.name }}
+          {% endif %}
+        </a>
+
+        {% if template.name == 'index' %}
+          </h1>
+        {% else %}
+          </div>
+        {% endif %}
+      </div>
+      <div class="site-header__section site-header__section--button">
+        <a href="/cart" class="btn btn--clear btn--square btn--hover-scale site-header__cart ajax-cart__toggle" aria-expanded="false">
+          {%- assign icon = 'icon-header-' | append: section.settings.icon %}
+          {% include icon %}
+          <span class="icon__fallback-text">{{ 'general.header.view_cart' | t }}</span>
+          <span class="site-header__cart-bubble{% if cart.item_count > 0 %} site-header__cart-bubble--visible{% endif %}"></span>
+        </a>
+      </div>
+    </div>
+  </header>
+</div>
+
+{% schema %}
+{
+  "name": {
+    "de": "Titel",
+    "en": "Header",
+    "es": "Encabezado",
+    "fr": "En-tête",
+    "it": "Header",
+    "ja": "ヘッダー",
+    "pt-BR": "Cabeçalho"
+  },
+  "settings": [
+    {
+      "type": "select",
+      "id": "icon",
+      "label": {
+        "de": "Warenkorbsymbol",
+        "en": "Shopping cart icon",
+        "es": "Icono de carrito de compras",
+        "fr": "Icône du panier",
+        "it": "Icona carrello",
+        "ja": "ショッピングカートのアイコン",
+        "pt-BR": "Ícone do carrinho de compras"
+      },
+      "default": "bag",
+      "options": [
+        {
+          "label": {
+            "de": "Beutel",
+            "en": "Bag",
+            "es": "Bolso",
+            "fr": "Sac",
+            "it": "Shopping bag",
+            "ja": "バッグ",
+            "pt-BR": "Sacola"
+          },
+          "value": "bag"
+        },
+        {
+          "label": {
+            "de": "Warenkorb",
+            "en": "Cart",
+            "es": "Carrito",
+            "fr": "Panier",
+            "it": "Carrello",
+            "ja": "カート",
+            "pt-BR": "Carrinho"
+          },
+          "value": "cart"
+        }
+      ]
+    },
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": {
+        "de": "Logo-Foto",
+        "en": "Logo image",
+        "es": "Imagen del logotipo",
+        "fr": "Image du logo",
+        "it": "Immagine del logo",
+        "ja": "ロゴ画像",
+        "pt-BR": "Imagem do logotipo"
+      }
+    },
+    {
+      "id": "logo_max_height",
+      "type": "text",
+      "label": {
+        "de": "Benutzerdefinierte Logohöhe (Pixel)",
+        "en": "Custom logo height (in pixels)",
+        "es": "Altura del logotipo personalizado (en píxeles)",
+        "fr": "Hauteur personnalisée du logo (en pixels)",
+        "it": "Altezza logo personalizzato (in pixel)",
+        "ja": "ロゴの高さをカスタムする（ピクセルで）",
+        "pt-BR": "Altura do logotipo personalizado (em pixels)"
+      },
+      "default": {
+        "de": "60",
+        "en": "60",
+        "es": "60",
+        "fr": "60",
+        "it": "60",
+        "ja": "60",
+        "pt-BR": "60"
+      }
+    },
+    {
+      "type": "header",
+      "content": {
+        "de": "Transparenter Header",
+        "en": "Transparent header",
+        "es": "Encabezado transparente",
+        "fr": "En-tête transparent",
+        "it": "Header trasparente",
+        "ja": "透過ヘッダー",
+        "pt-BR": "Cabeçalho transparente"
+      }
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_transparent",
+      "label": {
+        "de": "Transparenten Header auf der Homepage aktivieren",
+        "en": "Enable transparent header on the home page",
+        "es": "Habilitar encabezado transparente en la página de inicio",
+        "fr": "Activer l'en-tête transparent de la page d'accueil",
+        "it": "Abilita header trasparente nella home page",
+        "ja": "ホームページの透過ヘッダーを有効にする",
+        "pt-BR": "Habilitar cabeçalho transparente na página inicial."
+      },
+      "default": true
+    },
+    {
+      "type": "image_picker",
+      "id": "transparent_logo",
+      "label": {
+        "de": "Transparentes Logobild",
+        "en": "Tranparent logo image",
+        "es": "Imagen del logotipo de transparente",
+        "fr": "Image du logo transparent",
+        "it": "Immagine logo trasparente",
+        "ja": "透過ロゴ画像",
+        "pt-BR": "Imagem do logotipo transparente"
+      },
+      "info": {
+        "de": "Dieses Logo wird auf der Homepage verwendet, wenn die Einstellung für den transparenten Header ausgewählt wird",
+        "en": "This logo will be used on the home page if the transparent header setting is selected",
+        "es": "Este logotipo se utilizará en la página de inicio si se selecciona la configuración del encabezado transparente",
+        "fr": "Ce logo sera utilisé sur la page d'accueil si le paramètre d'en-tête transparent est sélectionné",
+        "it": "Questo logo verrà utilizzato nella home page se è selezionata l'impostazione di header trasparente",
+        "ja": "透過ヘッダー設定が選択されている場合、このロゴがホームページで使用されます。",
+        "pt-BR": "Esse logotipo será usado na página inicial quando a configuração de cabeçalho transparente estiver selecionada"
+      }
+    },
+    {
+      "type": "color",
+      "id": "transparent_text_color",
+      "label": {
+        "de": "Farbe des Symbols für den transparenten Header",
+        "en": "Transparent header icons color",
+        "es": "Color de iconos de encabezado transparente",
+        "fr": "Couleur des icônes d'en-tête transparent",
+        "it": "Colore icone header trasparente",
+        "ja": "透過ヘッダーアイコンの色",
+        "pt-BR": "Cor de ícones do cabeçalho transparente"
+      },
+      "default": "#ffffff"
+    },
+    {
+      "type": "header",
+      "content": {
+        "de": "navigation",
+        "en": "Navigation",
+        "es": "Navegación",
+        "fr": "Navigation",
+        "it": "Navigazione",
+        "ja": "メニュー",
+        "pt-BR": "Navegação"
+      }
+    },
+    {
+      "type": "link_list",
+      "id": "primary_navigation",
+      "label": {
+        "de": "Primäre Navigation",
+        "en": "Primary navigation",
+        "es": "Navegación primaria",
+        "fr": "Navigation principale",
+        "it": "Navigazione principale",
+        "ja": "プライマリメニュー",
+        "pt-BR": "Navegação primária"
+      },
+      "default": "main-menu"
+    },
+    {
+      "type": "link_list",
+      "id": "secondary_navigation",
+      "label": {
+        "de": "Sekundäre Navigation",
+        "en": "Secondary navigation",
+        "es": "Navegación secundaria",
+        "fr": "Navigation secondaire",
+        "it": "Navigazione secondaria",
+        "ja": "サブメニュー",
+        "pt-BR": "Navegação secundária"
+      },
+      "default": "footer",
+      "info": {
+        "de": "Dieses Menü zeigt keine Dropdowns an",
+        "en": "This menu won't show dropdown items",
+        "es": "Este menú no mostrará elementos desplegables",
+        "fr": "Ce menu n'affichera pas les éléments des menus déroulants",
+        "it": "Questo menu non mostrerà elementi a discesa",
+        "ja": "このメニューにはドロップダウンアイテムは表示されません",
+        "pt-BR": "Este menu não mostra itens suspensos"
+      }
+    },
+    {
+      "type": "checkbox",
+      "id": "show_social_icons",
+      "label": {
+        "de": "Social-Media-Symbole anzeigen",
+        "en": "Show social icons",
+        "es": "Mostrar íconos de redes sociales",
+        "fr": "Afficher les icônes de médias sociaux",
+        "it": "Mostra icone social",
+        "ja": "ソーシャルアイコンを表示する",
+        "pt-BR": "Apresentar ícones de redes sociais"
+      },
+      "default": false
+    },
+    {
+      "type": "header",
+      "content": {
+        "de": "Ankündigung",
+        "en": "Announcement",
+        "es": "Anuncio",
+        "fr": "Annonce",
+        "it": "Annuncio",
+        "ja": "告知",
+        "pt-BR": "Anúncio"
+      }
+    },
+    {
+      "type": "checkbox",
+      "id": "show_announcement",
+      "label": {
+        "de": "Ankündigung anzeigen",
+        "en": "Show announcement",
+        "es": "Mostrar anuncio",
+        "fr": "Afficher l'annonce",
+        "it": "Mostra annuncio",
+        "ja": "告知を表示する",
+        "pt-BR": "Exibir anúncio"
+      },
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "home_page_only",
+      "label": {
+        "de": "Nur Startseite",
+        "en": "Home page only",
+        "es": "Solo página de inicio",
+        "fr": "Page d'accueil uniquement",
+        "it": "Solo home page",
+        "ja": "ホームページのみ",
+        "pt-BR": "Apenas página inicial"
+      },
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "announcement_text",
+      "label": {
+        "de": "Ankündigungstext",
+        "en": "Announcement text",
+        "es": "Texto del anuncio",
+        "fr": "Texte d'annonce",
+        "it": "Testo annuncio",
+        "ja": "告知テキスト",
+        "pt-BR": "Texto do anúncio"
+      },
+      "default": {
+        "de": "Hier etwas ankündigen",
+        "en": "Announce something here",
+        "es": "Anuncia algo aquí",
+        "fr": "Annoncez quelque chose ici",
+        "it": "Annuncia qualcosa qui",
+        "ja": "ここで告知してください",
+        "pt-BR": "Anuncie algo aqui"
+      }
+    },
+    {
+      "type": "url",
+      "id": "announcement_link",
+      "label": {
+        "de": "Ankündigungslink",
+        "en": "Announcement link",
+        "es": "Enlace de anuncio",
+        "fr": "Lien d'annonce",
+        "it": "Link annuncio",
+        "ja": "告知リンク",
+        "pt-BR": "Link de anúncio"
+      },
+      "info": {
+        "de": "Optional",
+        "en": "Optional",
+        "es": "Opcional",
+        "fr": "Facultatif",
+        "it": "Facoltativo",
+        "ja": "オプション",
+        "pt-BR": "Opcional"
+      }
+    },
+    {
+      "type": "select",
+      "id": "announcement_icon",
+      "label": {
+        "de": "Symbol",
+        "en": "Icon",
+        "es": "Ícono",
+        "fr": "Icône",
+        "it": "Icona",
+        "ja": "アイコン",
+        "pt-BR": "Ícone"
+      },
+      "default": "checkmark",
+      "options": [
+        {
+          "label": {
+            "de": "Keine",
+            "en": "None",
+            "es": "Ninguno",
+            "fr": "Aucun",
+            "it": "Nessuno",
+            "ja": "なし",
+            "pt-BR": "Nenhum"
+          },
+          "value": "none"
+        },
+        {
+          "label": {
+            "de": "Kiste",
+            "en": "Box",
+            "es": "Caja",
+            "fr": "Colis",
+            "it": "Scatola",
+            "ja": "箱",
+            "pt-BR": "Caixa"
+          },
+          "value": "box"
+        },
+        {
+          "label": {
+            "de": "Karte",
+            "en": "Card",
+            "es": "Tarjeta",
+            "fr": "Carte",
+            "it": "Cartolina",
+            "ja": "カード",
+            "pt-BR": "Cartão"
+          },
+          "value": "card"
+        },
+        {
+          "label": {
+            "de": "Warenkorb",
+            "en": "Cart",
+            "es": "Carrito",
+            "fr": "Panier",
+            "it": "Carrello",
+            "ja": "カート",
+            "pt-BR": "Carrinho"
+          },
+          "value": "cart"
+        },
+        {
+          "label": {
+            "de": "Häkchen",
+            "en": "Checkmark",
+            "es": "Marca de verificación",
+            "fr": "Coche",
+            "it": "Segno di spunta",
+            "ja": "チェックマーク",
+            "pt-BR": "Marca de seleção"
+          },
+          "value": "checkmark"
+        },
+        {
+          "label": {
+            "de": "Uhr",
+            "en": "Clock",
+            "es": "Reloj",
+            "fr": "Horloge",
+            "it": "Orologio",
+            "ja": "時計",
+            "pt-BR": "Relógio"
+          },
+          "value": "clock"
+        },
+        {
+          "label": {
+            "de": "Briefumschlag",
+            "en": "Envelope",
+            "es": "Sobre",
+            "fr": "Enveloppe",
+            "it": "Busta",
+            "ja": "封筒",
+            "pt-BR": "Envelope"
+          },
+          "value": "envelope"
+        },
+        {
+          "label": {
+            "de": "Globus",
+            "en": "Globe",
+            "es": "Globo",
+            "fr": "Globe",
+            "it": "Globo",
+            "ja": "地球",
+            "pt-BR": "Globo"
+          },
+          "value": "globe"
+        },
+        {
+          "label": {
+            "de": "Leaf",
+            "en": "Leaf",
+            "es": "Hoja",
+            "fr": "Feuille",
+            "it": "Foglia",
+            "ja": "葉",
+            "pt-BR": "Folha"
+          },
+          "value": "leaf"
+        },
+        {
+          "label": {
+            "de": "Vorhängeschloss",
+            "en": "Padlock",
+            "es": "Candado",
+            "fr": "Cadenas",
+            "it": "Lucchetto",
+            "ja": "南京錠",
+            "pt-BR": "Cadeado"
+          },
+          "value": "padlock"
+        },
+        {
+          "label": {
+            "de": "Preisschild",
+            "en": "Price Tag",
+            "es": "Etiqueta de precio",
+            "fr": "Balise de prix",
+            "it": "Cartellino del prezzo",
+            "ja": "値札",
+            "pt-BR": "Etiqueta de preço"
+          },
+          "value": "pricetag"
+        },
+        {
+          "label": {
+            "de": "Silhouette",
+            "en": "Silhouette",
+            "es": "Silueta",
+            "fr": "Silhouette",
+            "it": "Silhouette",
+            "ja": "シルエット",
+            "pt-BR": "Silhueta"
+          },
+          "value": "silhouette"
+        },
+        {
+          "label": {
+            "de": "Trophäe",
+            "en": "Trophy",
+            "es": "Trofeo",
+            "fr": "Trophée",
+            "it": "Trofeo",
+            "ja": "トロフィー",
+            "pt-BR": "Troféu"
+          },
+          "value": "trophy"
+        },
+        {
+          "label": {
+            "de": "Lieferwagen",
+            "en": "Truck",
+            "es": "Camión",
+            "fr": "Camion",
+            "it": "Camion",
+            "ja": "トラック",
+            "pt-BR": "Caminhão"
+          },
+          "value": "truck"
+        }
+      ]
+    },
+    {
+      "type": "color",
+      "id": "announcement_color_bg",
+      "label": {
+        "de": "Zeile",
+        "en": "Bar",
+        "es": "Barra",
+        "fr": "Barre",
+        "it": "Barra",
+        "ja": "バー",
+        "pt-BR": "Barra"
+      },
+      "default": "#7796A8"
+    },
+    {
+      "type": "color",
+      "id": "announcement_color_text",
+      "label": {
+        "de": "Text",
+        "en": "Text",
+        "es": "Texto",
+        "fr": "Texte",
+        "it": "Testo",
+        "ja": "テキスト",
+        "pt-BR": "Texto"
+      },
+      "default": "#fff"
+    }
+  ]
+}
+{% endschema %}

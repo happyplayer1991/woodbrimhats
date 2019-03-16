@@ -1,0 +1,316 @@
+<style>
+  .highlight--{{ section.id }} .highlight__line {
+    background-color: {{ section.settings.border_color }};
+  }
+</style>
+
+<div class="highlight highlight--{{ section.id }} highlight--align-{{ section.settings.content_alignment }}" data-section-id="{{ section.id }}" data-section-type="highlight-section">
+  <div class="page-width page-width--narrow">
+    <div class="highlight__wrapper">
+      <div class="highlight__image-container highlight__image-container--{{ section.settings.image_position }}">
+        {% if section.settings.image == blank %}
+          {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg highlight__image highlight__image--placeholder' }}
+        {% else %}
+          <div class="highlight__image-wrapper" style="padding-top:{{ 1 | divided_by: section.settings.image.aspect_ratio | times: 100}}%">
+            {% assign img_url = section.settings.image | img_url: '1x1' | replace: '_1x1.', '_{width}x.' %}
+            <img class="highlight__image lazyload"
+              data-src="{{ img_url }}"
+              data-widths="[180, 360, 540, 720, 900, 1080, 1296, 1512, 1728, 2048]"
+              data-aspectratio="{{ section.settings.image.aspect_ratio }}"
+              data-sizes="auto"
+              alt="{{ section.settings.image.alt | escape }}">
+          </div>
+        {% endif %}
+      </div>
+      <div class="highlight__content-container">
+        <h2 class="h3">{{ section.settings.heading }}</h2>
+        <p>{{ section.settings.text }}</p>
+        {% if section.settings.button_text != blank %}
+          <a class="btn{% if section.settings.use_second_button %} btn--secondary{% endif %}" href="{{ section.settings.button_link }}">{{ section.settings.button_text }}</a>
+        {% endif %}
+      </div>
+
+      <div class="highlight__border" data-animate>
+        <div class="highlight__line highlight__line--top"></div>
+        <div class="highlight__line highlight__line--right"></div>
+        <div class="highlight__line highlight__line--bottom"></div>
+        <div class="highlight__line highlight__line--left"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": {
+    "de": "Markieren",
+    "en": "Highlight",
+    "es": "Resaltar",
+    "fr": "Surligner",
+    "it": "In evidenza",
+    "ja": "ハイライト",
+    "pt-BR": "Destaque"
+  },
+  "class": "index-section index-section--highlight",
+  "settings": [
+    {
+      "type": "color",
+      "id": "border_color",
+      "label": {
+        "de": "Randfarbe",
+        "en": "Border Color",
+        "es": "Color del borde",
+        "fr": "Couleur de la bordure",
+        "it": "Colore bordo",
+        "ja": "枠線の色",
+        "pt-BR": "Cor da borda"
+      },
+      "default": "#cbc8c1"
+    },
+    {
+      "type": "select",
+      "id": "content_alignment",
+      "label": {
+        "de": "Inhaltsausrichtung",
+        "en": "Content alignment",
+        "es": "Alineación de contenido",
+        "fr": "Alignement du contenu",
+        "it": "Allineamento contenuto",
+        "ja": "コンテンツアラインメント",
+        "pt-BR": "Alinhamento de conteúdo"
+      },
+      "default": "middle",
+      "options": [
+        {
+          "label": {
+            "de": "Oben",
+            "en": "Top",
+            "es": "Superior",
+            "fr": "En haut",
+            "it": "In alto",
+            "ja": "上",
+            "pt-BR": "Acima"
+          },
+          "value": "top"
+        },
+        {
+          "label": {
+            "de": "Mitte",
+            "en": "Middle",
+            "es": "Al medio",
+            "fr": "Au milieu",
+            "it": "Al centro",
+            "ja": "中央",
+            "pt-BR": "Meio"
+          },
+          "value": "middle"
+        },
+        {
+          "label": {
+            "de": "Unten",
+            "en": "Bottom",
+            "es": "Inferior",
+            "fr": "En bas",
+            "it": "In basso",
+            "ja": "下",
+            "pt-BR": "Abaixo"
+          },
+          "value": "bottom"
+        }
+      ]
+    },
+    {
+      "type": "header",
+      "content": {
+        "de": "Foto",
+        "en": "Image",
+        "es": "Imagen",
+        "fr": "Image",
+        "it": "Immagine",
+        "ja": "画像",
+        "pt-BR": "Imagem"
+      }
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": {
+        "de": "Foto",
+        "en": "Image",
+        "es": "Imagen",
+        "fr": "Image",
+        "it": "Immagine",
+        "ja": "画像",
+        "pt-BR": "Imagem"
+      }
+    },
+    {
+      "type": "select",
+      "id": "image_position",
+      "label": {
+        "de": "Foto-Position",
+        "en": "Image position",
+        "es": "Posición de la imagen",
+        "fr": "Position de l'image",
+        "it": "Posizione Immagine",
+        "ja": "画像の位置",
+        "pt-BR": "Posição da imagem"
+      },
+      "default": "back",
+      "options": [
+        {
+          "label": {
+            "de": "Vorne",
+            "en": "Front",
+            "es": "Frente",
+            "fr": "Avant",
+            "it": "Fronte",
+            "ja": "フロント",
+            "pt-BR": "Frente"
+          },
+          "value": "front"
+        },
+        {
+          "label": {
+            "de": "Zurück",
+            "en": "Back",
+            "es": "Regresar",
+            "fr": "Arrière",
+            "it": "Indietro",
+            "ja": "戻る",
+            "pt-BR": "Voltar"
+          },
+          "value": "back"
+        }
+      ]
+    },
+    {
+      "type": "header",
+      "content": {
+        "de": "Text",
+        "en": "Text",
+        "es": "Texto",
+        "fr": "Texte",
+        "it": "Testo",
+        "ja": "テキスト",
+        "pt-BR": "Texto"
+      }
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": {
+        "de": "Titel",
+        "en": "Heading",
+        "es": "Título",
+        "fr": "Titre",
+        "it": "Heading",
+        "ja": "見出し",
+        "pt-BR": "Título"
+      },
+      "default": {
+        "de": "Geschenkgutschein",
+        "en": "Gift card",
+        "es": "Tarjeta de regalo",
+        "fr": "Carte-cadeau",
+        "it": "Buono regalo",
+        "ja": "ギフトカード",
+        "pt-BR": "Cartão presente"
+      }
+    },
+    {
+      "type": "textarea",
+      "id": "text",
+      "label": {
+        "de": "Text",
+        "en": "Text",
+        "es": "Texto",
+        "fr": "Texte",
+        "it": "Testo",
+        "ja": "テキスト",
+        "pt-BR": "Texto"
+      },
+      "default": {
+        "de": "Suchen Sie etwas Besonderes? Dann ist ein Geschenkgutschein für unseren Shop genau das Richtige!",
+        "en": "Looking for something for someone special? A gift card to our store is the perfect idea!",
+        "es": "¿Estás buscando algo para alguien especial? Una tarjeta de regalo de nuestra tienda es el mejor regalo.",
+        "fr": "Vous cherchez quelque chose pour quelqu'un de spécial ? Une carte-cadeau à utiliser dans notre boutique, c'est ce qu'il vous faut !",
+        "it": "Cerchi qualcosa per una persona speciale? Un buono regalo per il nostro negozio è una bellissima idea!",
+        "ja": "特別な人のために何かをお探しですか?私たちのストアのギフトカードは、完璧なアイデアです!",
+        "pt-BR": "À procura de algo para alguém especial? Um cartão-presente de nossa loja é a escolha perfeita!"
+      }
+    },
+    {
+      "type": "checkbox",
+      "id": "use_second_button",
+      "label": {
+        "de": "Stil für sekundäre Schaltflächen verwenden",
+        "en": "Use secondary button style",
+        "es": "Utiliza el estilo de botón secundario",
+        "fr": "Utiliser le style de bouton secondaire",
+        "it": "Usa stile pulsante secondario",
+        "ja": "サブボタンのスタイルを使用する",
+        "pt-BR": "Usar o estilo de botão secundário"
+      },
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": {
+        "de": "Button-Etikett",
+        "en": "Button label",
+        "es": "Etiqueta de botón",
+        "fr": "Texte du bouton",
+        "it": "Etichetta pulsante",
+        "ja": "ボタンラベル",
+        "pt-BR": "Etiqueta do botão"
+      },
+      "default": {
+        "de": "Ansicht",
+        "en": "View",
+        "es": "Ver",
+        "fr": "Afficher",
+        "it": "Visualizza",
+        "ja": "表示する",
+        "pt-BR": "Ver"
+      }
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": {
+        "de": "Button-Etikett",
+        "en": "Button link",
+        "es": "Enlace de botón",
+        "fr": "Lien du bouton",
+        "it": "Link pulsante",
+        "ja": "ボタンリンク",
+        "pt-BR": "Link do botão"
+      }
+    }
+  ],
+  "presets": [
+    {
+      "name": {
+        "de": "Markieren",
+        "en": "Highlight",
+        "es": "Resaltar",
+        "fr": "Surligner",
+        "it": "In evidenza",
+        "ja": "ハイライト",
+        "pt-BR": "Destaque"
+      },
+      "category": {
+        "de": "Foto",
+        "en": "Image",
+        "es": "Imagen",
+        "fr": "Image",
+        "it": "Immagine",
+        "ja": "画像",
+        "pt-BR": "Imagem"
+      }
+    }
+  ]
+}
+{% endschema %}

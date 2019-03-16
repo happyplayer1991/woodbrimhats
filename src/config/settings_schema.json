@@ -1,0 +1,779 @@
+[
+  {
+    "name": "theme_info",
+    "theme_name": "Narrative",
+    "theme_author": "Shopify",
+    "theme_version": "6.0.5",
+    "theme_documentation_url": "https://help.shopify.com/manual/using-themes/themes-by-shopify/narrative",
+    "theme_support_url": "https://support.shopify.com/"
+  },
+  {
+    "name": {
+      "de": "Farben",
+      "en": "Colors",
+      "es": "Colores",
+      "fr": "Couleurs",
+      "it": "Colori",
+      "ja": "色",
+      "pt-BR": "Cores"
+    },
+    "settings": [
+      {
+        "type": "header",
+        "content": {
+          "de": "Akzentfarben",
+          "en": "Accent Colors",
+          "es": "Colores de acento",
+          "fr": "Couleurs d'accents",
+          "it": "Colori in risalto",
+          "ja": "アクセントの色",
+          "pt-BR": "Cores de destaque"
+        }
+      },
+      {
+        "type": "color",
+        "id": "color_primary",
+        "label": {
+          "de": "Primärer Akzent",
+          "en": "Primary accent",
+          "es": "Acento primario",
+          "fr": "Accent principal",
+          "it": "Elemento in risalto primario",
+          "ja": "プライマリアクセント",
+          "pt-BR": "Destaque primário"
+        },
+        "default": "#eb4f47",
+        "info": {
+          "de": "Verkaufstags, Schaltflächen und spezielle Ornamente.",
+          "en": "Sales tags, buttons, and special ornaments.",
+          "es": "Etiquetas de venta, botones y adornos especiales.",
+          "fr": "Balises de réductions, boutons et ornements spéciaux.",
+          "it": "Tag articoli in offerta, pulsanti e abbellimenti speciali.",
+          "ja": "販売タグ、ボタン、および特別な装飾。",
+          "pt-BR": "Tags de vendas, botões e ornamentos especiais."
+        }
+      },
+      {
+        "type": "header",
+        "content": {
+          "de": "Text- und Symbolfarben",
+          "en": "Text & Icon Colors",
+          "es": "Colores de texto e íconos",
+          "fr": "Couleurs du texte et des icônes",
+          "it": "Colori testo e icona",
+          "ja": "テキストとアイコンの色",
+          "pt-BR": "Cores de texto e ícones"
+        }
+      },
+      {
+        "type": "color",
+        "id": "color_header_text",
+        "label": {
+          "de": "Header-Symbole",
+          "en": "Header icons",
+          "es": "Iconos de encabezado",
+          "fr": "Icônes d'en-tête",
+          "it": "Icona header",
+          "ja": "ヘッダーアイコン",
+          "pt-BR": "Ícones do cabeçalho"
+        },
+        "default": "#4a4a4a"
+      },
+      {
+        "type": "color",
+        "id": "color_primary_heading_text",
+        "label": {
+          "de": "Text der primären Überschrift",
+          "en": "Primary heading text",
+          "es": "Texto del título principal",
+          "fr": "Texte du titre principal",
+          "it": "Testo titolo primario",
+          "ja": "プライマリ見出しテキスト",
+          "pt-BR": "Texto do título primário"
+        },
+        "default": "#3a3a3a"
+      },
+      {
+        "type": "color",
+        "id": "color_primary_body_text",
+        "label": {
+          "de": "Primärer Fließtext",
+          "en": "Primary body text",
+          "es": "Texto principal del cuerpo",
+          "fr": "Corps du texte principal",
+          "it": "Testo corpo principale",
+          "ja": "プライマリ本文テキスト",
+          "pt-BR": "Corpo do texto primário"
+        },
+        "default": "#4a4a4a"
+      },
+      {
+        "type": "color",
+        "id": "color_footer_text",
+        "label": {
+          "de": "Fußzeilentext",
+          "en": "Footer text",
+          "es": "Texto de pie de página",
+          "fr": "Texte du pied de page",
+          "it": "Testo footer",
+          "ja": "フッターテキスト",
+          "pt-BR": "Texto do rodapé"
+        },
+        "default": "#4a4a4a"
+      },
+      {
+        "type": "color",
+        "id": "color_button_text",
+        "label": {
+          "de": "Button-Etikett",
+          "en": "Button label",
+          "es": "Etiqueta de botón",
+          "fr": "Texte du bouton",
+          "it": "Etichetta pulsante",
+          "ja": "ボタンラベル",
+          "pt-BR": "Etiqueta do botão"
+        },
+        "default": "#ffffff"
+      },
+      {
+        "type": "header",
+        "content": {
+          "de": "Hintergrundfarben",
+          "en": "Background colors",
+          "es": "Colores del fondo",
+          "fr": "Couleurs d'arrière-plan",
+          "it": "Colori sfondo",
+          "ja": "背景の色",
+          "pt-BR": "Cores de fundo"
+        }
+      },
+      {
+        "type": "color",
+        "id": "color_header_bg",
+        "label": {
+          "de": "Header-Hintergrund",
+          "en": "Header background",
+          "es": "Fondo del encabezado",
+          "fr": "Arrière-plan d'en-tête",
+          "it": "Sfondo header",
+          "ja": "ヘッダーの背景",
+          "pt-BR": "Fundo do cabeçalho"
+        },
+        "default": "#fff"
+      },
+      {
+        "type": "color",
+        "id": "color_footer_bg",
+        "label": {
+          "de": "Fußzeilenhintergrund",
+          "en": "Footer background",
+          "es": "Fondo del pie de página",
+          "fr": "Arrière-plan du pied de page",
+          "it": "Sfondo footer",
+          "ja": "フッターの背景",
+          "pt-BR": "Plano de fundo do rodapé"
+        },
+        "default": "#eae7df"
+      },
+      {
+        "type": "color",
+        "id": "color_main_bg",
+        "label": {
+          "de": "Haupthintergrund",
+          "en": "Main background",
+          "es": "Fondo principal",
+          "fr": "Arrière-plan principal",
+          "it": "Sfondo principale",
+          "ja": "メイン背景",
+          "pt-BR": "Fundo principal"
+        },
+        "default": "#faf9f6"
+      },
+      {
+        "type": "color",
+        "id": "color_secondary_bg",
+        "label": {
+          "de": "Sekundärer Hintergrund",
+          "en": "Secondary background",
+          "es": "Fondo secundario",
+          "fr": "Arrière-plan secondaire",
+          "it": "Sfondo secondario",
+          "ja": "サブ背景",
+          "pt-BR": "Fundo secundário"
+        },
+        "default": "#f1eee6",
+        "info": {
+          "de": "Social Sharing-Abschnitte, Warenkorbeinschub, Blog-Kommentare.",
+          "en": "Social sharing sections, cart drawer, blog comments.",
+          "es": "Secciones para compartir en redes sociales, carrito de compras, comentarios de blog.",
+          "fr": "Sections de partage social, tiroir de panier, commentaires de blog.",
+          "it": "Sezioni di condivisione sui social, finestra del carrello, commenti di blog",
+          "ja": "ソーシャル共有セクション、カートドロワー、ブログのコメント。",
+          "pt-BR": "Seções de compartilhamento em redes sociais, painel deslizante do carrinho, comentários do blog."
+        }
+      },
+      {
+        "type": "header",
+        "content": {
+          "de": "Andere Farben",
+          "en": "Other Colors",
+          "es": "Otros colores",
+          "fr": "Autres couleurs",
+          "it": "Altri colori",
+          "ja": "その他の色",
+          "pt-BR": "Outras cores"
+        }
+      },
+      {
+        "type": "color",
+        "id": "color_product_cards",
+        "label": {
+          "de": "Produktkarten",
+          "en": "Product Cards",
+          "es": "Tarjetas de producto",
+          "fr": "Cartes de produits",
+          "it": "Schede prodotto",
+          "ja": "商品カード",
+          "pt-BR": "Cartões de produtos"
+        },
+        "default": "#fff"
+      },
+      {
+        "type": "color",
+        "id": "color_form_elements",
+        "label": {
+          "de": "Formularelemente",
+          "en": "Form elements",
+          "es": "Elementos de forma",
+          "fr": "Éléments de formulaire",
+          "it": "Elementi modulo",
+          "ja": "フォーム要素",
+          "pt-BR": "Elementos de formulário"
+        },
+        "default": "#fff"
+      },
+      {
+        "type": "color",
+        "id": "color_cart_flag",
+        "label": {
+          "de": "Warenkorb-Flag",
+          "en": "Cart flag",
+          "es": "Bandera del carrito",
+          "fr": "Drapeau de panier",
+          "it": "Bandiera carrello",
+          "ja": "カートの国旗",
+          "pt-BR": "Sinalização do carrinho"
+        },
+        "default": "#eb4f47"
+      }
+    ]
+  },
+  {
+    "name": {
+      "de": "Typografie",
+      "en": "Typography",
+      "es": "Tipografía",
+      "fr": "Typographie",
+      "it": "Caratteri tipografici",
+      "ja": "文字体裁",
+      "pt-BR": "Tipografia"
+    },
+    "settings": [
+      {
+        "type": "header",
+        "content": {
+          "de": "Global",
+          "en": "Global",
+          "es": "Global",
+          "fr": "Global",
+          "it": "Globale",
+          "ja": "グローバル",
+          "pt-BR": "Global"
+        }
+      },
+      {
+        "type": "select",
+        "id": "type_base_size",
+        "label": {
+          "de": "Basisgröße",
+          "en": "Base size",
+          "es": "Tamaño de base",
+          "fr": "Taille de base",
+          "it": "Dimensione base",
+          "ja": "ベースサイズ",
+          "pt-BR": "Tamanho básico"
+        },
+        "default": "62.5%",
+        "options": [
+          {
+            "value": "50%",
+            "label": {
+              "de": "Klein",
+              "en": "Small",
+              "es": "Pequeño",
+              "fr": "Petite",
+              "it": "Piccolo",
+              "ja": "小",
+              "pt-BR": "Pequeno"
+            }
+          },
+          {
+            "value": "62.5%",
+            "label": {
+              "de": "Mitte",
+              "en": "Medium",
+              "es": "Mediano",
+              "fr": "Moyenne",
+              "it": "Medio",
+              "ja": "中",
+              "pt-BR": "Médio"
+            }
+          },
+          {
+            "value": "75%",
+            "label": {
+              "de": "Groß",
+              "en": "Large",
+              "es": "Grande",
+              "fr": "Grande",
+              "it": "Grande",
+              "ja": "大",
+              "pt-BR": "Grande"
+            }
+          }
+        ]
+      },
+      {
+        "type": "header",
+        "content": {
+          "de": "Überschriften",
+          "en": "Headings",
+          "es": "Títulos",
+          "fr": "Titres",
+          "it": "Titoli",
+          "ja": "見出し",
+          "pt-BR": "Títulos"
+        }
+      },
+      {
+        "type": "font_picker",
+        "id": "type_header_font",
+        "label": {
+          "de": "Schriftart",
+          "en": "Font",
+          "es": "Fuente",
+          "fr": "Police",
+          "it": "Font",
+          "ja": "フォント",
+          "pt-BR": "Fonte"
+        },
+        "default": "monotype_baskerville_n4"
+      },
+      {
+        "type": "header",
+        "content": {
+          "de": "Fließtext",
+          "en": "Body text",
+          "es": "Texto del cuerpo",
+          "fr": "Corps du texte",
+          "it": "Corpo del testo",
+          "ja": "本文",
+          "pt-BR": "Corpo do texto"
+        }
+      },
+      {
+        "type": "font_picker",
+        "id": "type_base_font",
+        "label": {
+          "de": "Schriftart",
+          "en": "Font",
+          "es": "Fuente",
+          "fr": "Police",
+          "it": "Font",
+          "ja": "フォント",
+          "pt-BR": "Fonte"
+        },
+        "default": "avenir_next_n4"
+      }
+    ]
+  },
+  {
+    "name": {
+      "de": "Warenkorbeinschub",
+      "en": "Cart drawer",
+      "es": "Carrito lateral",
+      "fr": "Tiroir de panier",
+      "it": "Finestra del carrello",
+      "ja": "カートドロワー",
+      "pt-BR": "Painel do carrinho"
+    },
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "show_cart_drawer",
+        "label": {
+          "de": "Warenkorbeinschub anzeigen",
+          "en": "Show cart drawer",
+          "es": "Mostrar carrito lateral",
+          "fr": "Afficher le tiroir du panier",
+          "it": "Mostra finestra carrello",
+          "ja": "カートドロワーを表示する",
+          "pt-BR": "Apresentar painel deslizante do carrinho"
+        },
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "show_cart_note",
+        "label": {
+          "de": "Warenkorbanmerkung anzeigen",
+          "en": "Show cart note",
+          "es": "Mostrar nota del carrito",
+          "fr": "Afficher la note du panier",
+          "it": "Mostra nota carrello",
+          "ja": "カートメモを表示する",
+          "pt-BR": "Apresentar observação do carrinho"
+        }
+      }
+    ]
+  },
+  {
+    "name": {
+      "de": "Social Media",
+      "en": "Social",
+      "es": "Social",
+      "fr": "Médias sociaux",
+      "it": "Social Media",
+      "ja": "ソーシャル",
+      "pt-BR": "Redes sociais"
+    },
+    "settings": [
+      {
+        "type": "header",
+        "content": {
+          "de": "Social-Sharing-Bild",
+          "en": "Social sharing image",
+          "es": "Imagen para redes sociales",
+          "fr": "Image de partage social",
+          "it": "Immagine per condivisione social",
+          "ja": "SNSでシェアする画像",
+          "pt-BR": "Imagem de compartilhamento social"
+        }
+      },
+      {
+        "type": "image_picker",
+        "id": "share_image",
+        "label": {
+          "de": "Foto",
+          "en": "Image",
+          "es": "Imagen",
+          "fr": "Image",
+          "it": "Immagine",
+          "ja": "画像",
+          "pt-BR": "Imagem"
+        },
+        "info": {
+          "de": "Wird angezeigt, wenn ein Link in den sozialen Medien geteilt wird. [Mehr Infos](https://help.shopify.com/manual/using-themes/troubleshooting/showing-social-media-thumbnail-images/) über Bild-Miniaturansichten.",
+          "en": "Shown when sharing a link on social media. [Learn more](https://help.shopify.com/manual/using-themes/troubleshooting/showing-social-media-thumbnail-images/) about image thumbnails.",
+          "es": "Aparece cuando se comparte un enlace en una red social. [Más información](https://help.shopify.com/manual/using-themes/troubleshooting/showing-social-media-thumbnail-images/) acerca de las miniaturas",
+          "fr": "Affichée lorsqu'un lien est partagé sur les réseaux sociaux. [En savoir plus](https://help.shopify.com/manual/using-themes/troubleshooting/showing-social-media-thumbnail-images/) à propos des images miniatures.",
+          "it": "Mostrata quando si condivide un link sui social media. [Maggiori informazioni](https://help.shopify.com/manual/using-themes/troubleshooting/showing-social-media-thumbnail-images/) sulle immagini di anteprima.",
+          "ja": "SNSでリンクがシェアされると表示されます。[さらに詳しく](https://help.shopify.com/manual/using-themes/troubleshooting/showing-social-media-thumbnail-images/)画像のサムネイルについては、上のリンクを参照してください。",
+          "pt-BR": "Apresentada ao compartilhar um link nas redes sociais. [Saiba mais](https://help.shopify.com/manual/using-themes/troubleshooting/showing-social-media-thumbnail-images/) sobre miniaturas de imagens."
+        }
+      },
+      {
+        "type": "header",
+        "content": {
+          "de": "Social Sharing",
+          "en": "Social sharing",
+          "es": "Compartir en redes sociales",
+          "fr": "Partage social",
+          "it": "Condivisione sui social",
+          "ja": "ソーシャル共有",
+          "pt-BR": "Compartilhamento social"
+        },
+        "info": {
+          "de": "Gestatten Sie Kunden das Teilen von Produkten und Blog-Beiträgen in verschiedenen sozialen Netzwerken.",
+          "en": "Allow customers to share products and blog posts on various social networks.",
+          "es": "Permite que los clientes compartan productos y publicaciones en blogs en varias redes sociales.",
+          "fr": "Permettre aux clients de partager des produits et des articles de blog sur différents réseaux sociaux.",
+          "it": "Consenti ai clienti di condividere prodotti e articoli di blog su vari social network.",
+          "ja": "お客様がさまざまなソーシャルネットワークで商品やブログ記事を共有できるようにします。",
+          "pt-BR": "Permita que os clientes compartilhem produtos e posts do blog em várias redes sociais."
+        }
+      },
+      {
+        "type": "checkbox",
+        "id": "share_facebook",
+        "label": {
+          "de": "Auf Facebook teilen",
+          "en": "Share on Facebook",
+          "es": "Compartir en Facebook",
+          "fr": "Partager sur Facebook",
+          "it": "Condividi su Facebook",
+          "ja": "Facebookでシェアする",
+          "pt-BR": "Compartilhar no Facebook"
+        }
+      },
+      {
+        "type": "checkbox",
+        "id": "share_twitter",
+        "label": {
+          "de": "Auf Twitter twittern",
+          "en": "Tweet on Twitter",
+          "es": "Tuitear en Twitter",
+          "fr": "Tweeter sur Twitter",
+          "it": "Twitta su Twitter",
+          "ja": "Twitterに投稿する",
+          "pt-BR": "Tweetar"
+        }
+      },
+      {
+        "type": "checkbox",
+        "id": "share_pinterest",
+        "label": {
+          "de": "Auf Pinterest pinnen",
+          "en": "Pin on Pinterest",
+          "es": "Pinear en Pinterest",
+          "fr": "Épingler sur Pinterest",
+          "it": "Pinna su Pinterest",
+          "ja": "Pinterestでピンする",
+          "pt-BR": "Pin no Pinterest"
+        }
+      },
+      {
+        "type": "header",
+        "content": {
+          "de": "Social-Media-Links",
+          "en": "Social links",
+          "es": "Vínculos sociales",
+          "fr": "Liens de réseaux sociaux",
+          "it": "Link social",
+          "ja": "ソーシャルリンク",
+          "pt-BR": "Links de redes sociais"
+        },
+        "info": {
+          "de": "Links zu den Profilen und Seiten der sozialen Netzwerke Ihres Shops.",
+          "en": "Links to your store's social network profiles and pages.",
+          "es": "Enlaces a las páginas y perfiles de redes sociales de tu tienda.",
+          "fr": "Relie aux profils et pages des réseaux sociaux de votre boutique.",
+          "it": "Link a profili e pagine di social network del tuo negozio.",
+          "ja": "ストアのソーシャルネットワークのプロフィールとページにリンクします。",
+          "pt-BR": "Links para os perfis e páginas em redes sociais da sua loja."
+        }
+      },
+      {
+        "type": "text",
+        "id": "social_facebook_link",
+        "label": {
+          "de": "Facebook-Link",
+          "en": "Facebook link",
+          "es": "Enlace de Facebook",
+          "fr": "Lien Facebook",
+          "it": "Link Facebook",
+          "ja": "Facebookのリンク",
+          "pt-BR": "Link do Facebook"
+        },
+        "info": {
+          "de": "https://facebook.com/shopify",
+          "en": "https://facebook.com/shopify",
+          "es": "https://www.facebook.com/ShopifyES/",
+          "fr": "https://facebook.com/shopify",
+          "it": "https://facebook.com/shopify",
+          "ja": "https://facebook.com/shopify",
+          "pt-BR": "https://facebook.com/shopify"
+        }
+      },
+      {
+        "type": "text",
+        "id": "social_twitter_link",
+        "label": {
+          "de": "Twitter-Link",
+          "en": "Twitter link",
+          "es": "Enlace de Twitter",
+          "fr": "Lien Twitter",
+          "it": "Link Twitter",
+          "ja": "Twitterのリンク",
+          "pt-BR": "Link do Twitter"
+        },
+        "info": {
+          "de": "https://twitter.com/shopify",
+          "en": "https://twitter.com/shopify",
+          "es": "https://twitter.com/shopify",
+          "fr": "https://twitter.com/shopify",
+          "it": "https://twitter.com/shopify",
+          "ja": "https://twitter.com/shopify",
+          "pt-BR": "https://twitter.com/shopify"
+        }
+      },
+      {
+        "type": "text",
+        "id": "social_pinterest_link",
+        "label": {
+          "de": "Pinterest-Link",
+          "en": "Pinterest link",
+          "es": "Enlace de Pinterest",
+          "fr": "Lien Pinterest",
+          "it": "Link Pinterest",
+          "ja": "Pinterestのリンク",
+          "pt-BR": "Link do Pinterest"
+        },
+        "info": {
+          "de": "https://pinterest.com/shopify",
+          "en": "https://pinterest.com/shopify",
+          "es": "https://pinterest.com/shopify",
+          "fr": "https://pinterest.com/shopify",
+          "it": "https://pinterest.com/shopify",
+          "ja": "https://pinterest.com/shopify",
+          "pt-BR": "https://pinterest.com/shopify"
+        }
+      },
+      {
+        "type": "text",
+        "id": "social_instagram_link",
+        "label": {
+          "de": "Instagram-Link",
+          "en": "Instagram link",
+          "es": "Enlace de Instagram",
+          "fr": "Lien Instagram",
+          "it": "Link Instagram",
+          "ja": "Instagramのリンク",
+          "pt-BR": "Link do Instagram"
+        },
+        "info": {
+          "de": "http://instagram.com/shopify",
+          "en": "http://instagram.com/shopify",
+          "es": "http://instagram.com/shopify",
+          "fr": "https://instagram.com/shopify",
+          "it": "http://instagram.com/shopify",
+          "ja": "http://instagram.com/shopify",
+          "pt-BR": "http://instagram.com/shopify"
+        }
+      },
+      {
+        "type": "text",
+        "id": "social_snapchat_link",
+        "label": {
+          "de": "Snapchat-Link",
+          "en": "Snapchat link",
+          "es": "Enlace de Snapchat",
+          "fr": "Lien Snapchat",
+          "it": "Link Snapchat",
+          "ja": "Snapchatのリンク",
+          "pt-BR": "Link do Snapchat"
+        },
+        "info": {
+          "de": "https://www.snapchat.com/add/shopify",
+          "en": "https://www.snapchat.com/add/shopify",
+          "es": "https://www.snapchat.com/add/shopify",
+          "fr": "https://www.snapchat.com/add/shopify",
+          "it": "https://www.snapchat.com/add/shopify",
+          "ja": "https://www.snapchat.com/add/shopify",
+          "pt-BR": "https://www.snapchat.com/add/shopify"
+        }
+      },
+      {
+        "type": "text",
+        "id": "social_tumblr_link",
+        "label": {
+          "de": "Tumblr-Link",
+          "en": "Tumblr link",
+          "es": "Enlace de Tumblr",
+          "fr": "Lien Tumblr",
+          "it": "Link Tumblr",
+          "ja": "Tumblrのリンク",
+          "pt-BR": "Link do Tumblr"
+        },
+        "info": {
+          "de": "http://shopify.tumblr.com",
+          "en": "http://shopify.tumblr.com",
+          "es": "http://shopify.tumblr.com",
+          "fr": "http://shopify.tumblr.com",
+          "it": "http://shopify.tumblr.com",
+          "ja": "http://shopify.tumblr.com",
+          "pt-BR": "http://shopify.tumblr.com"
+        }
+      },
+      {
+        "type": "text",
+        "id": "social_youtube_link",
+        "label": {
+          "de": "YouTube-Link",
+          "en": "YouTube link",
+          "es": "Enlace de YouTube",
+          "fr": "Lien YouTube",
+          "it": "Link YouTube",
+          "ja": "YouTubeのリンク",
+          "pt-BR": "Link do YouTube"
+        },
+        "info": {
+          "de": "https://www.youtube.com/shopify",
+          "en": "https://www.youtube.com/shopify",
+          "es": "https://www.youtube.com/shopify",
+          "fr": "https://www.youtube.com/shopify",
+          "it": "https://www.youtube.com/shopify",
+          "ja": "https://www.youtube.com/shopify",
+          "pt-BR": "https://www.youtube.com/shopify"
+        }
+      },
+      {
+        "type": "text",
+        "id": "social_vimeo_link",
+        "label": {
+          "de": "Vimeo-Link",
+          "en": "Vimeo link",
+          "es": "Enlace Vimeo",
+          "fr": "Lien Vimeo",
+          "it": "Link Vimeo",
+          "ja": "Vimeoのリンク",
+          "pt-BR": "Link do Vimeo"
+        },
+        "info": {
+          "de": "https://vimeo.com/shopify",
+          "en": "https://vimeo.com/shopify",
+          "es": "https://vimeo.com/shopify",
+          "fr": "https://vimeo.com/shopify",
+          "it": "https://vimeo.com/shopify",
+          "ja": "https://vimeo.com/shopify",
+          "pt-BR": "https://vimeo.com/shopify"
+        }
+      }
+    ]
+  },
+  {
+    "name": {
+      "de": "Favicon",
+      "en": "Favicon",
+      "es": "Favicon",
+      "fr": "Favicon",
+      "it": "Favicon",
+      "ja": "ファビコン",
+      "pt-BR": "Favicon"
+    },
+    "settings": [
+      {
+        "type": "image_picker",
+        "id": "favicon",
+        "label": {
+          "de": "Favicon-Bild",
+          "en": "Favicon image",
+          "es": "Imagen de favicon",
+          "fr": "Image favicon",
+          "it": "Immagine favicon",
+          "ja": "ファビコン画像",
+          "pt-BR": "Imagem favicon"
+        },
+        "info": {
+          "de": "Wird auf 32 x 32 Pixel verkleinert.",
+          "en": "Will be scaled down to 32 x 32px",
+          "es": "Se reducirá a 32 x 32px",
+          "fr": "Sera réduite à 32 x 32 px",
+          "it": "Verrà ridimensionata a 32 x 32 pixel.",
+          "ja": "32×32ピクセルに縮小されます。",
+          "pt-BR": "Será reduzida para 32 x 32 pixels"
+        }
+      }
+    ]
+  }
+]

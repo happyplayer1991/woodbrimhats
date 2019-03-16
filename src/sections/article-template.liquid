@@ -1,0 +1,143 @@
+<div class="article" data-section-id="{{ section.id }}" data-section-type="article-template">
+
+  {% if article.image %}
+    <div class="section-header-image-wrapper">
+      <div class="section-header-image{% if section.settings.image_parallax %} section-header-image--parallax{% endif %} lazyload" data-bgset="{% include 'bgset', image: article.image %}"></div>
+
+      <noscript>
+        <div class="section-header-image" style="background-image: {{ article.image | img_url: 'master' }}"></div>
+      </noscript>
+    </div>
+  {% endif %}
+
+  <div class="page-width">
+    <div class="article__wrapper grid">
+      <div class="article__content article__content--large grid__item medium-up--ten-twelfths medium-up--push-one-twelfth">
+        <header class="article__header separator" data-animate>
+          {% if section.settings.show_date %}
+            <span class="article__date text-small--uppercase">
+              {{ article.published_at | time_tag: format: 'month_day_year' }}
+            </span>
+          {% endif %}
+          {% if section.settings.show_author %}
+            <span class="article__author text-small--uppercase">
+              {{ article.author }}
+            </span>
+          {% endif %}
+          <h1 class="article__title h2">{{ article.title }}</h1>
+        </header>
+
+        <div class="article__body rte" itemprop="articleBody">
+          {{ article.content }}
+        </div>
+      </div>
+
+      {% if section.settings.show_share_buttons %}
+        {% if settings.share_facebook or settings.share_twitter or settings.share_pinterest %}
+          <div class="article__share-desktop grid__item medium-up--two-twelfths">
+            <div class="article__share-desktop-wrapper">
+              {% include 'social-sharing', type: 'article', share_title: article.title, share_permalink: article.url, share_image: article.image %}
+            </div>
+          </div>
+        {% endif %}
+      {% endif %}
+    </div>
+  </div>
+
+  {% if section.settings.show_share_buttons %}
+    {% if settings.share_facebook or settings.share_twitter or settings.share_pinterest %}
+      <div class="article__share-mobile">
+          {% include 'social-sharing', type: 'mobile', share_title: article.title, share_permalink: article.url, share_image: article.image %}
+      </div>
+    {% endif %}
+  {% endif %}
+</div>
+
+{% schema %}
+{
+  "name": {
+    "de": "Posts",
+    "en": "Posts",
+    "es": "Publicaciones",
+    "fr": "Articles",
+    "it": "Articoli",
+    "ja": "投稿",
+    "pt-BR": "posts"
+  },
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "image_parallax",
+      "label": {
+        "de": "Parallax-Animation für Bild anzeigen",
+        "en": "Show image parallax animation",
+        "es": "Mostrar animación de paralaje de imagen",
+        "fr": "Afficher l'animation en parallaxe",
+        "it": "Mostra animazione parallasse immagine",
+        "ja": "画像のパララックスアニメーションを表示する",
+        "pt-BR": "Exibir animação de paralaxe da imagem"
+      },
+      "info": {
+        "de": "Wird nur auf dem Desktop angezeigt",
+        "en": "Only shows on desktop",
+        "es": "Solo se muestra en el escritorio",
+        "fr": "Ne s'affiche que sur le bureau",
+        "it": "Appare solo su desktop",
+        "ja": "デスクトップにのみ表示する",
+        "pt-BR": "Aparece apenas na área de trabalho"
+      }
+    },
+    {
+      "type": "checkbox",
+      "id": "show_date",
+      "label": {
+        "de": "Datum anzeigen",
+        "en": "Show date",
+        "es": "Mostrar fecha",
+        "fr": "Afficher la date",
+        "it": "Mostra data",
+        "ja": "日付を表示する",
+        "pt-BR": "Exibir data"
+      },
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_author",
+      "label": {
+        "de": "Autor anzeigen",
+        "en": "Show author",
+        "es": "Mostrar autor",
+        "fr": "Afficher l'auteur",
+        "it": "Mostra autore",
+        "ja": "執筆者を表示する",
+        "pt-BR": "Exibir autor(a)"
+      },
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "show_share_buttons",
+      "label": {
+        "de": "Teilen von Blog-Beiträgen aktivieren",
+        "en": "Enable sharing for blog articles",
+        "es": "Habilitar el uso compartido de artículos de blog",
+        "fr": "Activer le partage pour les articles de blog",
+        "it": "Abilita condivisione per gli articoli del blog",
+        "ja": "ブログ記事の共有を有効にする",
+        "pt-BR": "Ativar compartilhamento para artigos de blog"
+      },
+      "info": {
+        "de": "Vergewissern Sie sich, dass Sie in den allgemeinen Einstellungen das Teilen in sozialen Netzwerken aktiviert haben",
+        "en": "Make sure you have enabled social sharing in general settings",
+        "es": "Asegúrate de haber habilitado la opción para compartir en redes sociales en la configuración general.",
+        "fr": "Assurez-vous d'avoir activé le partage social dans les paramètres généraux",
+        "it": "Assicurati di aver abilitato la condivisione sui social nelle impostazioni generali",
+        "ja": "一般設定でソーシャル共有を有効にしていることを確認してください。",
+        "pt-BR": "Verifique se você habilitou o compartilhamento em redes sociais nas configurações gerais"
+      },
+      "default": true
+    }
+  ]
+}
+{% endschema %}

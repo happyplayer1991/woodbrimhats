@@ -1,0 +1,228 @@
+{%- assign limit = section.settings.results | times: section.settings.rows -%}
+
+{% paginate search.results by limit %}
+
+<div class="page-width" data-section-id="{{ section.id }}" data-section-type="search-template">
+  <header class="section-header section-header--small text-center">
+    {% if search.performed %}
+      <h1 class="section-header__title h2">{{ 'general.search.search_results_title' | t }}</h1>
+      <div class="section-header__description">
+        {{ 'general.search.results_count_html' | t: count: search.results_count, terms: search.terms }}
+      </div>
+    {% else %}
+      <h1 class="section-header__title h2">{{ 'general.search.title' | t }}</h1>
+      <div class="search-template__search-bar">
+        {% include 'search-bar' %}
+      </div>
+    {% endif %}
+  </header>
+
+  {% if search.performed %}
+
+    {%- assign desktopColumns = section.settings.results -%}
+    {%- assign mobileColumns = '1' -%}
+
+    {%- capture gridClasses -%}
+      {% if desktopColumns == '3' %}medium-up--one-third {% else %}medium-up--one-half {% endif %}
+      {% if mobileColumns == '2' %}small--one-half {% endif %}
+    {%- endcapture -%}
+
+    <div class="card-list grid" data-desktop-columns="{{ desktopColumns }}" data-mobile-columns="{{ mobileColumns }}" data-grid-style="{{ section.settings.grid_style }}">
+      <div class="card-list__column grid__item {% if search.results.size == 1 %} card-list__column--center{% endif %} {{ gridClasses }}">
+        {% for item in search.results %}
+          {% if item.object_type == 'article' %}
+            {% include 'article-card', article: item, grid_style: section.settings.grid_style %}
+          {% elsif item.object_type == 'page' %}
+            {% include 'page-card', page: item %}
+          {% else %}
+            {% include 'product-card', product: item, grid_style: section.settings.grid_style %}
+          {% endif %}
+        {% endfor %}
+      </div>
+    </div>
+
+    {% if paginate.pages > 1 %}
+      <div class="card-list__sub-actions">
+        {% include 'pagination' %}
+      </div>
+    {% endif %}
+
+    <div class="text-center card-list__sub-actions{% if product_count == 0 %} card-list__sub-actions--no-results{% endif %}">
+      {% include 'search-bar' %}
+    </div>
+  {% endif %}
+</div>
+
+{% endpaginate %}
+
+{% schema %}
+{
+  "name": {
+    "de": "Suchen",
+    "en": "Search",
+    "es": "Buscar",
+    "fr": "Rechercher",
+    "it": "Cerca",
+    "ja": "検索",
+    "pt-BR": "Pesquisa"
+  },
+  "settings": [
+    {
+      "type": "select",
+      "id": "grid_style",
+      "label": {
+        "de": "Rasterstil",
+        "en": "Grid style",
+        "es": "Estilo de cuadrícula",
+        "fr": "Style de grille",
+        "it": "Stile griglia",
+        "ja": "グリッドスタイル",
+        "pt-BR": "Estilo da grade"
+      },
+      "default": "collage",
+      "options": [
+        {
+          "value": "collage",
+          "label": {
+            "de": "Collage",
+            "en": "Collage",
+            "es": "Collage",
+            "fr": "Collage",
+            "it": "Collage",
+            "ja": "コラージュ",
+            "pt-BR": "Colagem"
+          }
+        },
+        {
+          "value": "grid",
+          "label": {
+            "de": "Raster",
+            "en": "Grid",
+            "es": "Cuadrícula",
+            "fr": "Grille",
+            "it": "Griglia",
+            "ja": "グリッド",
+            "pt-BR": "Grade"
+          }
+        }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "results",
+      "label": {
+        "de": "Ergebnisse pro Zeile",
+        "en": "Results per row",
+        "es": "Resultados por fila",
+        "fr": "Résultats par rangée",
+        "it": "Risultati per riga",
+        "ja": "行あたりの結果",
+        "pt-BR": "Resultados por linha"
+      },
+      "default": "2",
+      "options": [
+        {
+          "value": "2",
+          "label": {
+            "de": "2",
+            "en": "2",
+            "es": "2",
+            "fr": "2",
+            "it": "2",
+            "ja": "2",
+            "pt-BR": "2"
+          }
+        },
+        {
+          "value": "3",
+          "label": {
+            "de": "3",
+            "en": "3",
+            "es": "3",
+            "fr": "3",
+            "it": "3",
+            "ja": "3",
+            "pt-BR": "3"
+          }
+        }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "rows",
+      "label": {
+        "de": "Zeilen pro Seite",
+        "en": "Rows per page",
+        "es": "Filas por página",
+        "fr": "Rangées par page",
+        "it": "Righe per pagina",
+        "ja": "ページあたりの行数",
+        "pt-BR": "Linhas por página"
+      },
+      "default": "4",
+      "options": [
+        {
+          "value": "2",
+          "label": {
+            "de": "2",
+            "en": "2",
+            "es": "2",
+            "fr": "2",
+            "it": "2",
+            "ja": "2",
+            "pt-BR": "2"
+          }
+        },
+        {
+          "value": "3",
+          "label": {
+            "de": "3",
+            "en": "3",
+            "es": "3",
+            "fr": "3",
+            "it": "3",
+            "ja": "3",
+            "pt-BR": "3"
+          }
+        },
+        {
+          "value": "4",
+          "label": {
+            "de": "4",
+            "en": "4",
+            "es": "4",
+            "fr": "4",
+            "it": "4",
+            "ja": "4",
+            "pt-BR": "4"
+          }
+        },
+        {
+          "value": "5",
+          "label": {
+            "de": "5",
+            "en": "5",
+            "es": "5",
+            "fr": "5",
+            "it": "5",
+            "ja": "5",
+            "pt-BR": "5"
+          }
+        },
+        {
+          "value": "6",
+          "label": {
+            "de": "6",
+            "en": "6",
+            "es": "6",
+            "fr": "6",
+            "it": "6",
+            "ja": "6",
+            "pt-BR": "6"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

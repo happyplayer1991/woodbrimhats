@@ -1,0 +1,840 @@
+{% if section.settings.show_overlay %}
+  <style>
+    #Slideshow-{{ section.id }} .slideshow__overlay::before {
+      background-color: {{ section.settings.overlay_color }};
+      opacity: {{ section.settings.overlay_opacity }};
+    }
+
+    #Slideshow-{{ section.id }} .slideshow__heading,
+    #Slideshow-{{ section.id }} .slideshow__button-label {
+      color: {{ section.settings.overlay_text }};
+    }
+  </style>
+{% endif %}
+
+<div data-section-id="{{ section.id }}" data-section-type="slideshow-section">
+  <div id="Slideshow-{{ section.id }}" class="slideshow">
+    {% if section.blocks.size > 0 %}
+      <div class="slideshow__slides">
+
+        {% for block in section.blocks %}
+          <div class="slideshow__slide slideshow__slide--{{ block.id }}{% if forloop.first %} slideshow__slide--active{% endif %}{% if section.settings.show_overlay %} slideshow__overlay{% endif %}" {% unless forloop.first %}aria-hidden="true"{% endunless %} {{ block.shopify_attributes }}>
+
+            {% if block.settings.image == blank %}
+              <div class="slideshow__image slideshow__image--{{ block.id }}">
+                <div class="placeholder-background">
+                  {% capture current %}{% cycle 1, 2 %}{% endcapture %}
+                  {{ 'lifestyle-' | append: current | placeholder_svg_tag: 'placeholder-svg' }}
+                </div>
+              </div>
+            {% else %}
+              {% assign img_url = block.settings.image | img_url: '1x1' | replace: '_1x1.', '_{width}x.' %}
+
+              <style>
+                .slideshow__image--{{ block.id }} {
+                  object-position: {{ block.settings.alignment }};
+                  font-family: "object-fit: cover; object-position: {{ block.settings.alignment }};";
+                }
+              </style>
+
+              <img class="slideshow__image slideshow__image--{{ block.id }} lazyload"
+                  src="{{ block.settings.image | img_url: '300x' }}"
+                  data-src="{{ img_url }}"
+                  data-widths="[540, 720, 900, 1080, 1296, 1512, 1728, 1944, 2048]"
+                  data-aspectratio="{{ block.settings.image.aspect_ratio }}"
+                  data-sizes="auto"
+                  data-parent-fit="cover"
+                  alt="{{ block.settings.image.alt | escape }}">
+            {% endif %}
+
+            {% if block.type == 'video' and block.settings.video_url != blank %}
+              <div class="slideshow__video slideshow__video--{{ block.id }}"
+                data-video-type="{{ block.settings.video_url.type }}"
+                data-video-id="{{ block.settings.video_url.id }}"></div>
+            {% endif %}
+
+            <div class="slideshow__text-container page-width">
+              <div class="slideshow__text-content" data-animate>
+                {% if block.settings.title != blank %}
+                  <h2 class="slideshow__heading h1">
+                    {{ block.settings.title | escape }}
+                  </h2>
+                  {% if section.blocks.size == 1 and block.settings.cta_link != blank %}
+                    <a href="{{ block.settings.cta_link }}" class="slideshow__heading-cta btn">
+                      {{ section.settings.cta | escape }}
+                    </a>
+                  {% endif %}
+                {% endif %}
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    {% else %}
+      <div class="slideshow__image slideshow__image--{{ block.id }}{% if section.settings.show_overlay %} slideshow__overlay{% endif %}">
+        <div class="placeholder-background">
+          {{ 'lifestyle-1' | placeholder_svg_tag: 'placeholder-svg' }}
+        </div>
+      </div>
+    {% endif %}
+
+    {% if section.blocks.size > 1 %}
+      <button class="slideshow__button--next critical-hide">
+        <span class="visually-hidden">{{ 'sections.slider.next_slide' | t}}</span>
+      </button>
+
+      <div class="slideshow__buttons critical-hide" data-count="{{ section.blocks.size }}">
+        {% for block in section.blocks %}
+          <div class="slideshow__button slideshow__button--{{ section.blocks.size }}{% if block.settings.cta_link != blank %} slideshow__button--link{% endif %}">
+            <button class="slideshow__button-label text-title btn--clear">
+              <span class="visually-hidden">{{ 'sections.slider.slide' | t: number: forloop.index }}</span>
+              {{ block.settings.button }}
+            </button>
+
+            {% if block.settings.cta_link != blank %}
+              <a href="{{ block.settings.cta_link }}" class="slideshow__button-cta slideshow__button-cta--mobile medium-up--hide btn" tabindex="-1">
+                <span class="visually-hidden">{{ section.settings.cta | escape }}</span>
+                {% include 'icon-plus' %}
+              </a>
+            {% else %}
+              <div class="slideshow__button-cta slideshow__button-cta--mobile medium-up--hide btn" tabindex="-1">
+                <span class="visually-hidden">{{ section.settings.cta | escape }}</span>
+                {% include 'icon-plus' %}
+              </div>
+            {% endif %}
+
+            {% if block.settings.cta_link != blank %}
+              <a href="{{ block.settings.cta_link }}" class="slideshow__button-cta slideshow__button-cta--desktop small--hide btn" tabindex="-1">
+                {{ section.settings.cta | escape }}
+              </a>
+            {% else %}
+              <div class="slideshow__button-cta slideshow__button-cta--desktop small--hide btn" tabindex="-1">
+                {{ section.settings.cta | escape }}
+              </div>
+            {% endif %}
+          </div>
+        {% endfor %}
+      </div>
+
+      <button class="slideshow__button--previous critical-hide">
+        <span class="visually-hidden">{{ 'sections.slider.previous_slide' | t}}</span>
+      </button>
+    {% endif %}
+  </div>
+
+  {% if section.blocks.size > 1 %}
+    <div class="slideshow__nav">
+      {% for block in section.blocks %}
+        <button class="slideshow__nav-dot{% if forloop.first %} slideshow__nav-dot--active{% endif %} critical-clear">
+          <span class="visually-hidden">{{ 'sections.slider.slide' | t: number: forloop.index }}</span>
+        </button>
+      {% endfor %}
+    </div>
+  {% endif %}
+</div>
+
+{% schema %}
+{
+  "name": {
+    "de": "Slideshow",
+    "en": "Slideshow",
+    "es": "Diapositivas",
+    "fr": "Diaporama",
+    "it": "Presentazione",
+    "ja": "スライドショー",
+    "pt-BR": "Apresentação de slides"
+  },
+  "class": "index-section index-section--slideshow",
+  "max_blocks": 5,
+  "settings": [
+    {
+      "type": "text",
+      "id": "cta",
+      "label": {
+        "de": "Schaltflächenbeschriftungen",
+        "en": "Button labels",
+        "es": "Etiquetas de botón",
+        "fr": "Étiquettes de boutons",
+        "it": "Etichette pulsanti",
+        "ja": "ボタンラベル",
+        "pt-BR": "Etiquetas de botão"
+      },
+      "default": {
+        "de": "Empfohlener Link",
+        "en": "Featured Link",
+        "es": "Enlace destacado",
+        "fr": "Lien vedette",
+        "it": "Link in primo piano",
+        "ja": "特集リンク",
+        "pt-BR": "Link em destaque"
+      }
+    },
+    {
+      "type": "header",
+      "content": {
+        "de": "Overlay",
+        "en": "Overlay",
+        "es": "Superposición",
+        "fr": "Superposition",
+        "it": "Sovrapposizione",
+        "ja": "オーバーレイ",
+        "pt-BR": "Sobreposição"
+      }
+    },
+    {
+      "type": "checkbox",
+      "id": "show_overlay",
+      "label": {
+        "de": "Überlagerung anzeigen",
+        "en": "Show overlay",
+        "es": "Mostrar superposición",
+        "fr": "Afficher la superposition",
+        "it": "Mostra sovrapposizione",
+        "ja": "オーバーレイを表示する",
+        "pt-BR": "Exibir sobreposição"
+      },
+      "default": true
+    },
+    {
+      "type": "color",
+      "id": "overlay_color",
+      "label": {
+        "de": "Überlagerungsfarbe",
+        "en": "Overlay Color",
+        "es": "Color de superposición",
+        "fr": "Couleur de superposition",
+        "it": "Colore sovrapposizione",
+        "ja": "オーバーレイの色",
+        "pt-BR": "Cor de sobreposição"
+      },
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "overlay_text",
+      "label": {
+        "de": "Textfarbe",
+        "en": "Text color",
+        "es": "Color del texto",
+        "fr": "Couleur du texte",
+        "it": "Colore del testo",
+        "ja": "文字の色",
+        "pt-BR": "Cor do texto"
+      },
+      "default": "#ffffff"
+    },
+    {
+      "type": "select",
+      "id": "overlay_opacity",
+      "label": {
+        "de": "Opazität",
+        "en": "Opacity",
+        "es": "Opacidad",
+        "fr": "Opacité",
+        "it": "Opacità",
+        "ja": "不透過率",
+        "pt-BR": "Opacidade"
+      },
+      "default": "0.3",
+      "options": [
+        {
+          "label": {
+            "de": "100%",
+            "en": "100%",
+            "es": "100%",
+            "fr": "100 %",
+            "it": "100%",
+            "ja": "100%",
+            "pt-BR": "100%"
+          },
+          "value": "1"
+        },
+        {
+          "label": {
+            "de": "95 %",
+            "en": "95%",
+            "es": "95%",
+            "fr": "95 %",
+            "it": "95%",
+            "ja": "95%",
+            "pt-BR": "95%"
+          },
+          "value": "0.95"
+        },
+        {
+          "label": {
+            "de": "90 %",
+            "en": "90%",
+            "es": "90%",
+            "fr": "90 %",
+            "it": "90%",
+            "ja": "90%",
+            "pt-BR": "90%"
+          },
+          "value": "0.9"
+        },
+        {
+          "label": {
+            "de": "85 %",
+            "en": "85%",
+            "es": "85%",
+            "fr": "85 %",
+            "it": "85%",
+            "ja": "85%",
+            "pt-BR": "85%"
+          },
+          "value": "0.85"
+        },
+        {
+          "label": {
+            "de": "80 %",
+            "en": "80%",
+            "es": "80%",
+            "fr": "80 %",
+            "it": "80%",
+            "ja": "80%",
+            "pt-BR": "80%"
+          },
+          "value": "0.8"
+        },
+        {
+          "label": {
+            "de": "75%",
+            "en": "75%",
+            "es": "75%",
+            "fr": "75 %",
+            "it": "75%",
+            "ja": "75%",
+            "pt-BR": "75%"
+          },
+          "value": "0.75"
+        },
+        {
+          "label": {
+            "de": "70 %",
+            "en": "70%",
+            "es": "70%",
+            "fr": "70 %",
+            "it": "70%",
+            "ja": "70%",
+            "pt-BR": "70%"
+          },
+          "value": "0.7"
+        },
+        {
+          "label": {
+            "de": "65 %",
+            "en": "65%",
+            "es": "65%",
+            "fr": "65 %",
+            "it": "65%",
+            "ja": "65%",
+            "pt-BR": "65%"
+          },
+          "value": "0.65"
+        },
+        {
+          "label": {
+            "de": "60 %",
+            "en": "60%",
+            "es": "60%",
+            "fr": "60 %",
+            "it": "60%",
+            "ja": "60%",
+            "pt-BR": "60%"
+          },
+          "value": "0.6"
+        },
+        {
+          "label": {
+            "de": "55 %",
+            "en": "55%",
+            "es": "55%",
+            "fr": "55 %",
+            "it": "55%",
+            "ja": "55%",
+            "pt-BR": "55%"
+          },
+          "value": "0.55"
+        },
+        {
+          "label": {
+            "de": "50%",
+            "en": "50%",
+            "es": "50%",
+            "fr": "50 %",
+            "it": "50%",
+            "ja": "50%",
+            "pt-BR": "50%"
+          },
+          "value": "0.5"
+        },
+        {
+          "label": {
+            "de": "45 %",
+            "en": "45%",
+            "es": "45%",
+            "fr": "45 %",
+            "it": "45%",
+            "ja": "45%",
+            "pt-BR": "45%"
+          },
+          "value": "0.45"
+        },
+        {
+          "label": {
+            "de": "40 %",
+            "en": "40%",
+            "es": "40%",
+            "fr": "40 %",
+            "it": "40%",
+            "ja": "40%",
+            "pt-BR": "40%"
+          },
+          "value": "0.4"
+        },
+        {
+          "label": {
+            "de": "35 %",
+            "en": "35%",
+            "es": "35%",
+            "fr": "35 %",
+            "it": "35%",
+            "ja": "35%",
+            "pt-BR": "35%"
+          },
+          "value": "0.35"
+        },
+        {
+          "label": {
+            "de": "30 %",
+            "en": "30%",
+            "es": "30%",
+            "fr": "30 %",
+            "it": "30%",
+            "ja": "30%",
+            "pt-BR": "30%"
+          },
+          "value": "0.3"
+        },
+        {
+          "label": {
+            "de": "25%",
+            "en": "25%",
+            "es": "25%",
+            "fr": "25 %",
+            "it": "25%",
+            "ja": "25%",
+            "pt-BR": "25%"
+          },
+          "value": "0.25"
+        },
+        {
+          "label": {
+            "de": "20 %",
+            "en": "20%",
+            "es": "20%",
+            "fr": "20 %",
+            "it": "20%",
+            "ja": "20%",
+            "pt-BR": "20%"
+          },
+          "value": "0.2"
+        },
+        {
+          "label": {
+            "de": "0 %",
+            "en": "0%",
+            "es": "0%",
+            "fr": "0 %",
+            "it": "0%",
+            "ja": "0%",
+            "pt-BR": "0%"
+          },
+          "value": "0"
+        }
+      ]
+    }
+  ],
+  "blocks": [
+    {
+      "type": "image",
+      "name": {
+        "de": "Foto-Slide",
+        "en": "Image slide",
+        "es": "Diapositiva de imagen",
+        "fr": "Diapositive (image)",
+        "it": "Slide immagine",
+        "ja": "画像スライド",
+        "pt-BR": "Slide de imagem"
+      },
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": {
+            "de": "Foto",
+            "en": "Image",
+            "es": "Imagen",
+            "fr": "Image",
+            "it": "Immagine",
+            "ja": "画像",
+            "pt-BR": "Imagem"
+          }
+        },
+        {
+          "type": "select",
+          "id": "alignment",
+          "label": {
+            "de": "Fotoausrichtung",
+            "en": "Image alignment",
+            "es": "Alineación de imagen",
+            "fr": "Alignement de l'image",
+            "it": "Allineamento immagine",
+            "ja": "画像アラインメント",
+            "pt-BR": "Alinhamento da imagem"
+          },
+          "default": "center center",
+          "options": [
+            {
+              "label": {
+                "de": "Oben links",
+                "en": "Top left",
+                "es": "Superior izquierda",
+                "fr": "En haut à gauche",
+                "it": "In alto a sinistra",
+                "ja": "左上",
+                "pt-BR": "Superior esquerdo"
+              },
+              "value": "top left"
+            },
+            {
+              "label": {
+                "de": "Oben Mitte",
+                "en": "Top center",
+                "es": "Superior al centro",
+                "fr": "En haut au centre",
+                "it": "In alto al centro",
+                "ja": "中央上",
+                "pt-BR": "Superior centro"
+              },
+              "value": "top center"
+            },
+            {
+              "label": {
+                "de": "Oben rechts",
+                "en": "Top right",
+                "es": "Superior derecha",
+                "fr": "En haut à droite",
+                "it": "In alto a destra",
+                "ja": "右上",
+                "pt-BR": "Superior direito"
+              },
+              "value": "top right"
+            },
+            {
+              "label": {
+                "de": "Mitte links",
+                "en": "Middle left",
+                "es": "Al medio a la izquierda",
+                "fr": "Au milieu à gauche",
+                "it": "In mezzo a sinistra",
+                "ja": "中央左",
+                "pt-BR": "Meio esquerdo"
+              },
+              "value": "center left"
+            },
+            {
+              "label": {
+                "de": "Mitte mittig",
+                "en": "Middle center",
+                "es": "Al medio al centro",
+                "fr": "Centrée au milieu",
+                "it": "In mezzo al centro",
+                "ja": "中央中",
+                "pt-BR": "Meio centro"
+              },
+              "value": "center center"
+            },
+            {
+              "label": {
+                "de": "Mitte rechts",
+                "en": "Middle right",
+                "es": "Al medio a la derecha",
+                "fr": "Au milieu à droite",
+                "it": "In centro a destra",
+                "ja": "中央右",
+                "pt-BR": "Meio direito"
+              },
+              "value": "center right"
+            },
+            {
+              "label": {
+                "de": "Unten links",
+                "en": "Bottom left",
+                "es": "Inferior izquierda",
+                "fr": "En bas à gauche",
+                "it": "In basso a sinistra",
+                "ja": "左下",
+                "pt-BR": "Inferior esquerdo"
+              },
+              "value": "bottom left"
+            },
+            {
+              "label": {
+                "de": "Unten mittig",
+                "en": "Bottom center",
+                "es": "Inferior al centro",
+                "fr": "En bas au centre",
+                "it": "In basso al centro",
+                "ja": "中央下",
+                "pt-BR": "Inferior centro"
+              },
+              "value": "bottom center"
+            },
+            {
+              "label": {
+                "de": "Unten rechts",
+                "en": "Bottom right",
+                "es": "Inferior derecha",
+                "fr": "En bas à droite",
+                "it": "In basso a destra",
+                "ja": "右下",
+                "pt-BR": "Inferior direito"
+              },
+              "value": "bottom right"
+            }
+          ]
+        },
+        {
+          "type": "header",
+          "content": {
+            "de": "Text",
+            "en": "Text",
+            "es": "Texto",
+            "fr": "Texte",
+            "it": "Testo",
+            "ja": "テキスト",
+            "pt-BR": "Texto"
+          }
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": {
+            "de": "Titel",
+            "en": "Heading",
+            "es": "Título",
+            "fr": "Titre",
+            "it": "Heading",
+            "ja": "見出し",
+            "pt-BR": "Título"
+          },
+          "default": {
+            "de": "Erzählen Sie Ihre Geschichte",
+            "en": "Tell your story",
+            "es": "Cuenta tu historia",
+            "fr": "Racontez votre histoire",
+            "it": "Racconta la tua storia",
+            "ja": "詳細をお聞かせください",
+            "pt-BR": "Conte sua história"
+          }
+        },
+        {
+          "type": "text",
+          "id": "button",
+          "label": {
+            "de": "Folientitel",
+            "en": "Slide title",
+            "es": "Título de diapositiva",
+            "fr": "Titre de la diapositive",
+            "it": "Titolo slide",
+            "ja": "スライドタイトル",
+            "pt-BR": "Título do slide"
+          },
+          "default": {
+            "de": "Folientitel",
+            "en": "Slide title",
+            "es": "Título de diapositiva",
+            "fr": "Titre de la diapositive",
+            "it": "Titolo slide",
+            "ja": "スライドタイトル",
+            "pt-BR": "Título do slide"
+          },
+          "info": {
+            "de": "Obligatorisch, wenn mehrere Folien hinzugefügt werden",
+            "en": "Required if you add more than one slide",
+            "es": "Obligatorio si agregas más de una diapositiva",
+            "fr": "Obligatoire si vous ajoutez plus d'une diapositive",
+            "it": "Richiesto se aggiungi più di una slide",
+            "ja": "複数のスライドを追加する場合は必須です。",
+            "pt-BR": "Obrigatório se você adicionar mais de um slide"
+          }
+        },
+        {
+          "type": "url",
+          "id": "cta_link",
+          "label": {
+            "de": "Button-Etikett",
+            "en": "Button link",
+            "es": "Enlace de botón",
+            "fr": "Lien du bouton",
+            "it": "Link pulsante",
+            "ja": "ボタンリンク",
+            "pt-BR": "Link do botão"
+          }
+        }
+      ]
+    },
+    {
+      "type": "video",
+      "name": {
+        "de": "Video-Slide",
+        "en": "Video slide",
+        "es": "Diapositiva de video",
+        "fr": "Diapositive (vidéo)",
+        "it": "Slide video",
+        "ja": "ビデオスライド",
+        "pt-BR": "Slide de vídeo"
+      },
+      "settings": [
+        {
+          "type": "video_url",
+          "id": "video_url",
+          "info": {
+            "de": "Beste Ergebnisse bei einem Seitenverhältnis des Videos von 16:9",
+            "en": "Best results if the video's aspect ratio is 16:9",
+            "es": "Mejor resultado si la relación de aspecto del video es 16: 9",
+            "fr": "Vous obtiendrez de meilleurs résultats si le rapport d'aspect de la vidéo est de 16: 9",
+            "it": "Ottieni i migliori risultati se il formato del video è 16:9",
+            "ja": "ビデオのアスペクト比は16：9にするのが最適です。",
+            "pt-BR": "Resultados melhores quando a proporção de tela do vídeo for 16: 9"
+          },
+          "label": {
+            "de": "Video-Link",
+            "en": "Video link",
+            "es": "Enlace de video",
+            "fr": "Lien de la vidéo",
+            "it": "Link video",
+            "ja": "ビデオリンク",
+            "pt-BR": "Link do vídeo"
+          },
+          "accept": [
+            "youtube",
+            "vimeo"
+          ],
+          "default": {
+            "de": "https://www.youtube.com/watch?v=_9VUPq3SxOc",
+            "en": "https://www.youtube.com/watch?v=_9VUPq3SxOc",
+            "es": "https://www.youtube.com/watch?v=_9VUPq3SxOc",
+            "fr": "https://www.youtube.com/watch?v=_9VUPq3SxOc",
+            "it": "https://www.youtube.com/watch?v=_9VUPq3SxOc",
+            "ja": "https://www.youtube.com/watch?v=_9VUPq3SxOc",
+            "pt-BR": "https://www.youtube.com/watch?v=_9VUPq3SxOc"
+          }
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": {
+            "de": "Foto",
+            "en": "Image",
+            "es": "Imagen",
+            "fr": "Image",
+            "it": "Immagine",
+            "ja": "画像",
+            "pt-BR": "Imagem"
+          },
+          "info": {
+            "de": "Ersatz, falls Video nicht automatisch auf Mobilgeräten abspielt",
+            "en": "Fallback when autoplaying video is not supported on mobile devices",
+            "es": "No se admite reserva cuando se reproduce un video en dispositivos móviles automáticamente .",
+            "fr": "Image affichée lorsque la vidéo n'est pas supportée sur les appareils mobiles",
+            "it": "Immagine alternativa per i dispositivi mobili che non supportano la riproduzione automatica del video",
+            "ja": "モバイル端末でビデオの自動再生がサポートされていない場合のフォールバック",
+            "pt-BR": "Alternativa quando a reprodução automática de vídeo não for compatível com os dispositivos móveis"
+          }
+        },
+        {
+          "type": "header",
+          "content": {
+            "de": "Text",
+            "en": "Text",
+            "es": "Texto",
+            "fr": "Texte",
+            "it": "Testo",
+            "ja": "テキスト",
+            "pt-BR": "Texto"
+          }
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": {
+            "de": "Titel",
+            "en": "Heading",
+            "es": "Título",
+            "fr": "En-tête",
+            "it": "Heading",
+            "ja": "見出し",
+            "pt-BR": "Título"
+          },
+          "default": {
+            "de": "Präsentationsvideo",
+            "en": "Slideshow video",
+            "es": "Video de presentación",
+            "fr": "Diaporama vidéo",
+            "it": "Video presentazione",
+            "ja": "スライドショーのビデオ",
+            "pt-BR": "Vídeo de apresentação de slides"
+          }
+        },
+        {
+          "type": "text",
+          "id": "button",
+          "label": {
+            "de": "Folientitel",
+            "en": "Slide title",
+            "es": "Título de diapositiva",
+            "fr": "Titre de la diapositive",
+            "it": "Titolo slide",
+            "ja": "スライドタイトル",
+            "pt-BR": "Título do slide"
+          },
+          "default": {
+            "de": "Folientitel",
+            "en": "Slide title",
+            "es": "Título de diapositiva",
+            "fr": "Titre de la diapositive",
+            "it": "Titolo slide",
+            "ja": "スライドタイトル",
+            "pt-BR": "Título do slide"
+          },
+          "info": {
+            "de": "Wird nur angezeigt, wenn der Präsentation mehrere Folien hinzugefügt werden",
+            "en": "Only shows if you set more than one slide in the slideshow",
+            "es": "Solo se muestra si configuras más de una diapositiva en la presentación de diapositivas",
+            "fr": "Ne s'affiche que si vous avez défini plusieurs diapositives dans le diaporama",
+            "it": "Appare solo se imposti più di una slide nella presentazione",
+            "ja": "スライドショーに複数のスライドを設定した場合のみ表示されます。",
+            "pt-BR": "Aparece apenas se você definir mais de um slide na apresentação de slides"
+          }
+        },
+        {
+          "type": "url",
+          "id": "cta_link",
+          "label": {
+            "de": "Button-Etikett",
+            "en": "Button link",
+            "es": "Enlace de botón",
+            "fr": "Lien du bouton",
+            "it": "Link pulsante",
+            "ja": "ボタンリンク",
+            "pt-BR": "Link do botão"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
