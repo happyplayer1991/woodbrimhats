@@ -724,7 +724,7 @@ h1 {
   }
 
   @include media-query($medium-up) {
-    font-size: rem(60);
+    font-size: rem(65);
     line-height: line-height(72, 60);
   }
 }
@@ -5927,6 +5927,10 @@ $transition-image-slideshow: opacity 0.8s cubic-bezier(0.44, 0.13, 0.48, 0.87),
 
 .slideshow__text-content {
   opacity: 0;
+  max-width: 980px;
+  padding: 0 20px 0 33px;
+  margin: 0 auto;
+  text-align: left;
 
   &.has-animated {
     @include prefix(animation, fadeUp 0.5s ease-out 0.5s 1 forwards, webkit spec);
@@ -5941,9 +5945,25 @@ $transition-image-slideshow: opacity 0.8s cubic-bezier(0.44, 0.13, 0.48, 0.87),
 .slideshow__heading {
   margin: 0 auto;
 
-  @include media-query($medium-up) {
+  {% comment %} @include media-query($medium-up) {
     max-width: 800px;
+  } {% endcomment %}
+}
+
+.slideshow__subtitle {
+  margin-top: 10px;
+  color: $settings-color-button-text;
+
+  @include media-query($small) {
+    font-size: rem(34);
+    
   }
+
+  @include media-query($medium-up) {
+    font-size: rem(20);
+    line-height: line-height(32, 20);
+  }
+
 }
 
 .slideshow__heading-cta {

@@ -59,6 +59,7 @@
                   <h2 class="slideshow__heading h1">
                     {{ block.settings.title | escape }}
                   </h2>
+                  <p class="slideshow__subtitle">{{ block.settings.subtitle }}</p>
                   {% if section.blocks.size == 1 and block.settings.cta_link != blank %}
                     <a href="{{ block.settings.cta_link }}" class="slideshow__heading-cta btn">
                       {{ section.settings.cta | escape }}
@@ -639,6 +640,12 @@
             "ja": "詳細をお聞かせください",
             "pt-BR": "Conte sua história"
           }
+        },
+        {
+          "type": "textarea",
+          "id": "subtitle",
+          "label": "Sub Title",
+          "default": "Sub Title"
         },
         {
           "type": "text",
