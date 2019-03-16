@@ -5955,13 +5955,13 @@ $transition-image-slideshow: opacity 0.8s cubic-bezier(0.44, 0.13, 0.48, 0.87),
   color: $settings-color-button-text;
 
   @include media-query($small) {
-    font-size: rem(34);
-    
+    font-size: rem(15);
+    line-height: line-height(19.5, 15);
   }
 
   @include media-query($medium-up) {
     font-size: rem(20);
-    line-height: line-height(32, 20);
+    line-height: line-height(26, 20);
   }
 
 }
@@ -5970,7 +5970,7 @@ $transition-image-slideshow: opacity 0.8s cubic-bezier(0.44, 0.13, 0.48, 0.87),
   margin-top: $gutter * 2;
 
   @include media-query($medium-up) {
-    margin-top: $gutter * 3;
+    margin-top: $gutter;
   }
 }
 
